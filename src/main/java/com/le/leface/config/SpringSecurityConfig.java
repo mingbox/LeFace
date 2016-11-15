@@ -29,7 +29,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
 	    .authorizeRequests()
-	        .antMatchers("/","/**","/css/**","/fonts/**","/images/**","/js/**").permitAll() 
+	        .antMatchers("/**","/css/**","/fonts/**","/images/**","/js/**").permitAll() 
 	        .anyRequest().denyAll()
 	        .and()
 	    .csrf().disable();

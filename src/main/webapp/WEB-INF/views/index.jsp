@@ -39,53 +39,13 @@
 					<div id="results">Recognition result will appear here...</div>
 					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
 					<!-- A button for taking snaps -->
-					<!-- <form>
-						<input type=button value="Take Large Snapshot" onClick="take_snapshot()">
-					</form> -->
+					<form>
+						<input type="hidden" name="picture" value="" />
+						<input type="button" value="Take Large Snapshot" onClick="take_snapshot()">
+					</form>
 						
 				</section>
 
-			<!-- Two -->
-				<%-- <section id="two">
-					<h2>Recent Work</h2>
-					<div class="row">
-						<article class="6u 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/01.jpg' />" alt="" /></a>
-							<h3>Magna sed consequat tempus</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-						<article class="6u$ 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/02.jpg' />" alt="" /></a>
-							<h3>Ultricies lacinia interdum</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-						<article class="6u 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/03.jpg' />" alt="" /></a>
-							<h3>Tortor metus commodo</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-						<article class="6u$ 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/04.jpg' />" alt="" /></a>
-							<h3>Quam neque phasellus</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-						<article class="6u 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/05.jpg' />" alt="" /></a>
-							<h3>Nunc enim commodo aliquet</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-						<article class="6u$ 12u$(xsmall) work-item">
-							<a href="#" class="image fit thumb"><img src="<c:url value='/images/thumbs/06.jpg' />" alt="" /></a>
-							<h3>Risus ornare lacinia</h3>
-							<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-						</article>
-					</div>
-					<ul class="actions">
-						<li><a href="#" class="button">Full Portfolio</a></li>
-					</ul>
-				</section> --%>
-
-			<!-- Three -->
 				<section id="three">
 					<h2>Set up your profile</h2>
 					<p>Please enter your information and click Start button to begin recording your image.</p>
@@ -172,6 +132,12 @@
 			function take_snapshot() {
 				// take snapshot and get image data
 				Webcam.snap( function(data_uri) {
+
+					var formData = {};    
+					formData['picture'] = data_uri;
+					$.post('<c:url value="/recognize" />', formData).done(function (data) {
+				        alert(data);
+				    });
 					// display results in page
 					/* document.getElementById('results').innerHTML = 
 						'<h2>Here is your large image:</h2>' + 
