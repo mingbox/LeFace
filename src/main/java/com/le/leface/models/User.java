@@ -31,6 +31,18 @@ public class User {
 	@Column(name="gender")
 	private String gender;
 
+	
+	
+	public User() {
+		super();
+	}
+
+	public User(String faceId, String firstName) {
+		super();
+		this.faceId = faceId;
+		this.firstName = firstName;
+	}
+
 	public long getId() {
 		return id;
 	}

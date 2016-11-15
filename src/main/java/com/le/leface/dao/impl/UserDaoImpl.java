@@ -33,7 +33,7 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 	
 	public User findByFaceId(String faceId) {
 	       Criteria criteria = createEntityCriteria();
-	       criteria.add(Restrictions.eq("face_id", faceId));
+	       criteria.add(Restrictions.eq("faceId", faceId));
 	       return (User) criteria.uniqueResult();
 	}
 }

@@ -46,9 +46,11 @@ public class HomeController {
 		return null;
 	}
 
-	@ResponseBody
 	@RequestMapping(value = "/detect", method = RequestMethod.POST)
 	public void detect(@RequestParam(value = "img", required = true) CommonsMultipartFile file,@RequestParam String name) throws IOException{
-		faceDetectService.detect(name, file.getBytes());
+		String personId=faceDetectService.detect(name, file.getBytes());
+		if(personId!=null){
+			userService.addUser(new User(personId,name));
+		}
 	}
 }
