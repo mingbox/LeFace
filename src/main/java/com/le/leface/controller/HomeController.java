@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.le.leface.models.User;
 import com.le.leface.service.FaceDetectService;
@@ -29,7 +30,7 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping(value = "/identify")
+	@RequestMapping(value = "identify", method = RequestMethod.POST)
 	public User identify(byte[] img) throws IOException{
 		String personId=faceDetectService.identify(img);
 		if(personId!=null){
@@ -40,7 +41,7 @@ public class HomeController {
 		return null;
 	}
 
-	@RequestMapping(value = "/detect")
+	@RequestMapping(value = "detect", method = RequestMethod.POST)
 	public void detect(String name,byte[] img) throws IOException{
 		faceDetectService.detect(name, img);
 	}
