@@ -3,16 +3,15 @@ package com.le.leface.controller;
 import java.io.IOException;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.le.leface.models.User;
 import com.le.leface.service.FaceDetectService;
@@ -36,9 +35,8 @@ public class HomeController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "identify", method = RequestMethod.POST)
-	public User identify(HttpServletRequest req) throws IOException{
-		MultipartFile file = ((DefaultMultipartHttpServletRequest) req).getFile("img");
+	@RequestMapping(value = "/identify", method = RequestMethod.POST)
+	public User identify(@RequestParam(value = "img", required = true) CommonsMultipartFile file) throws IOException{
 		String personId=faceDetectService.identify(file.getBytes());
 		if(personId!=null){
 			User user = userService.getUserByFaceId(personId);
@@ -49,9 +47,8 @@ public class HomeController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "detect", method = RequestMethod.POST)
-	public void detect(HttpServletRequest req) throws IOException{
-		MultipartFile file = ((DefaultMultipartHttpServletRequest) req).getFile("img");
-		faceDetectService.detect(req.getParameter("name"), file.getBytes());
+	@RequestMapping(value = "/detect", method = RequestMethod.POST)
+	public void detect(@RequestParam(value = "img", required = true) CommonsMultipartFile file,@RequestParam String name) throws IOException{
+		faceDetectService.detect(name, file.getBytes());
 	}
 }
