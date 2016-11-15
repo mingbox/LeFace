@@ -5,12 +5,13 @@ import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import com.facepp.error.FaceppParseException;
 import com.facepp.http.HttpRequests;
 import com.facepp.http.PostParameters;
 import com.le.leface.service.FaceDetectService;
-
+@Service
 public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 	
 	private static HttpRequests httpRequests = new HttpRequests("43a4489d167edfc5a51bc0c0fbea2e02", "mHuNxOtYtDJatlNl_rDoMho29tz_Qq-n", false, true);
