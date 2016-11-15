@@ -13,17 +13,17 @@
 	<link rel="stylesheet" href="<c:url value='/css/main.css' />" />
 	<style type="text/css">
 		form > input { margin-right: 15px; }
-		#my_camera { margin:auto; }
-		#results { margin:20px auto; padding:10px; border:1px solid; background:#ccc; width: 300px;}
+		#results { float:right; margin:20px; padding:20px; border:1px solid; background:#ccc; }
 	</style>
 </head>
 <body id="top">
 	<!-- Header -->
 		<header id="header">
 			<div class="inner">
-				<a href="#" class="image avatar"><img src="<c:url value='/images/LeEco.png' />" alt="" /></a>
-				<h1><strong>LeEco</strong> face recognition<br />
-				by open eco San Jose Team.</h1>
+				<a href="#" class="image avatar"><img src="<c:url value='/images/avatar.jpg' />" alt="" /></a>
+				<h1><strong>I am Strata</strong>, a super simple<br />
+				responsive site template freebie<br />
+				crafted by <a href="http://html5up.net">HTML5 UP</a>.</h1>
 			</div>
 		</header>
 
@@ -33,20 +33,17 @@
 			<!-- One -->
 				<section id="one">
 					<header class="major">
-						<h2>LeEco TV face recognition interface</h2>
+						<h2>Ipsum lorem dolor aliquam ante commodo<br />
+						magna sed accumsan arcu neque.</h2>
 					</header>
-					<div id="my_camera"></div>
-					<div id="results">Recognition result will appear here...</div>
-					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
-					<!-- A button for taking snaps -->
-					<!-- <form>
-						<input type=button value="Take Large Snapshot" onClick="take_snapshot()">
-					</form> -->
-						
+					<p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p>
+					<ul class="actions">
+						<li><a href="#" class="button">Learn More</a></li>
+					</ul>
 				</section>
 
 			<!-- Two -->
-				<%-- <section id="two">
+				<section id="two">
 					<h2>Recent Work</h2>
 					<div class="row">
 						<article class="6u 12u$(xsmall) work-item">
@@ -83,36 +80,40 @@
 					<ul class="actions">
 						<li><a href="#" class="button">Full Portfolio</a></li>
 					</ul>
-				</section> --%>
+				</section>
 
 			<!-- Three -->
 				<section id="three">
-					<h2>Set up your profile</h2>
-					<p>Please enter your information and click Start button to begin recording your image.</p>
+					<h2>Get In Touch</h2>
+					<p>Accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque lorem ipsum dolor.</p>
 					<div class="row">
 						<div class="8u 12u$(small)">
 							<form method="post" action="#">
 								<div class="row uniform 50%">
-									<div class="12u$"><input type="text" name="name" id="name" placeholder="Name" /></div>
-									<div class="12u$"><input type="email" name="email" id="email" placeholder="Email" /></div>
-									<!-- <div class="12u$"><textarea name="message" id="message" placeholder="Message" rows="2"></textarea></div> -->
+									<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" /></div>
+									<div class="6u$ 12u$(xsmall)"><input type="email" name="email" id="email" placeholder="Email" /></div>
+									<div class="12u$"><textarea name="message" id="message" placeholder="Message" rows="4"></textarea></div>
 								</div>
 							</form>
 							<ul class="actions">
-								<li><input type="submit" value="Start" /></li>
+								<li><input type="submit" value="Send Message" /></li>
 							</ul>
 						</div>
 						<div class="4u$ 12u$(small)">
 							<ul class="labeled-icons">
 								<li>
 									<h3 class="icon fa-home"><span class="label">Address</span></h3>
-									3553 North 1st Street<br />
-									San Jose, CA 95134<br />
+									1234 Somewhere Rd.<br />
+									Nashville, TN 00000<br />
 									United States
 								</li>
 								<li>
+									<h3 class="icon fa-mobile"><span class="label">Phone</span></h3>
+									000-000-0000
+								</li>
+								<li>
 									<h3 class="icon fa-envelope-o"><span class="label">Email</span></h3>
-									<a href="#">mingbo.xu@le.com</a>
+									<a href="#">hello@untitled.tld</a>
 								</li>
 							</ul>
 						</div>
@@ -130,7 +131,7 @@
 					<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
 				</ul>
 				<ul class="copyright">
-					<li>&copy; LeEco</li>
+					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</div>
 		</footer>
@@ -141,43 +142,59 @@
 		<script src="<c:url value='/js/skel.min.js' />"></script>
 		<script src="<c:url value='/js/util.js' />"></script>
 		<script src="<c:url value='/js/main.js' />"></script>
-		
-		<!-- First, include the Webcam.js JavaScript Library -->
-		<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
-		
-		<!-- Configure a few settings and attach camera -->
-		<script language="JavaScript">
-			Webcam.set({
-				// live preview size
-				width: 320,
-				height: 240,
-				
-				// device capture size
-				dest_width: 640,
-				dest_height: 480,
-				
-				// final cropped size
-				crop_width: 480,
-				crop_height: 480,
-				
-				// format and quality
-				image_format: 'jpeg',
-				jpeg_quality: 90
-			});
-			
-			Webcam.attach( '#my_camera' );
-		</script>
-		<!-- Code to handle taking the snapshot and displaying it locally -->
-		<script language="JavaScript">
-			function take_snapshot() {
-				// take snapshot and get image data
-				Webcam.snap( function(data_uri) {
-					// display results in page
-					/* document.getElementById('results').innerHTML = 
-						'<h2>Here is your large image:</h2>' + 
-						'<img src="'+data_uri+'"/>'; */
-				} );
-			}
-		</script>
 </body>
+
+<%-- <body>
+	<div id="results">Your captured image will appear here...</div>
+	
+	<h1>WebcamJS Test Page</h1>
+	<h3>Demonstrates 480x480 cropped capture &amp; 240x240 small display</h3>
+	
+	<div id="my_camera"></div>
+	
+	<!-- First, include the Webcam.js JavaScript Library -->
+	<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
+	
+	<!-- Configure a few settings and attach camera -->
+	<script language="JavaScript">
+		Webcam.set({
+			// live preview size
+			width: 320,
+			height: 240,
+			
+			// device capture size
+			dest_width: 640,
+			dest_height: 480,
+			
+			// final cropped size
+			crop_width: 480,
+			crop_height: 480,
+			
+			// format and quality
+			image_format: 'jpeg',
+			jpeg_quality: 90
+		});
+		
+		Webcam.attach( '#my_camera' );
+	</script>
+	
+	<!-- A button for taking snaps -->
+	<form>
+		<input type=button value="Take Large Snapshot" onClick="take_snapshot()">
+	</form>
+	
+	<!-- Code to handle taking the snapshot and displaying it locally -->
+	<script language="JavaScript">
+		function take_snapshot() {
+			// take snapshot and get image data
+			Webcam.snap( function(data_uri) {
+				// display results in page
+				document.getElementById('results').innerHTML = 
+					'<h2>Here is your large image:</h2>' + 
+					'<img src="'+data_uri+'"/>';
+			} );
+		}
+	</script>
+	
+</body> --%>
 </html>
