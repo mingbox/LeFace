@@ -8,31 +8,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	  
-	@Column(name="face_id")
+
+	@Column(name = "face_id")
 	private String faceId;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name="age")
+	@Column(name = "age")
 	private int age;
 
-	@Column(name="gender")
+	@Column(name = "gender")
 	private String gender;
 
-	
-	
 	public User() {
 		super();
 	}
@@ -41,6 +39,13 @@ public class User {
 		super();
 		this.faceId = faceId;
 		this.firstName = firstName;
+	}
+
+	public User(String faceId, String firstName, String lastName) {
+		super();
+		this.faceId = faceId;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public long getId() {

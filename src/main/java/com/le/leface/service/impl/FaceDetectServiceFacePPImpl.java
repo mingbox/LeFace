@@ -3,6 +3,7 @@ package com.le.leface.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 						.getJSONObject(0);
 				Double confidence = person.getDouble("confidence");
 				String personId = person.getString("person_id");
-				if (confidence.doubleValue() > 90) {
+				if (confidence.doubleValue() > 60) {
 					return personId;
 				}
 			}
@@ -55,14 +56,61 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 					faceList.add(face.getString("face_id"));
 				}
 			}
-			JSONObject personResult = httpRequests.personCreate(new PostParameters().setGroupName(GROUP_NAME).setFaceId(faceList));
-			JSONObject trainResult = httpRequests.trainIdentify(new PostParameters().setGroupName(GROUP_NAME));
-			System.out.println(trainResult);
+			JSONObject personResult = httpRequests.personCreate(new PostParameters().setGroupName(GROUP_NAME).setFaceId(faceList).setTag(name));
+			trainGroup();
 			return personResult.getString("person_id");
 		} catch (FaceppParseException | JSONException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public JSONObject getPersonList() {
+		JSONObject result=null;
+		try {
+			result= httpRequests.infoGetPersonList();
+		} catch (FaceppParseException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public void removePerson(String personId) {
+		try {
+			httpRequests.personDelete(new PostParameters().setPersonId(personId));
+			trainGroup();
+		} catch (FaceppParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void removeAllPersons(){
+		JSONObject result=getPersonList();
+		ArrayList<String> personIds=new ArrayList<String>();
+		try {
+			JSONArray personList;
+			personList = result.getJSONArray("person");
+			for(int i=0;i<personList.length();i++){
+				personIds.add(personList.getJSONObject(i).getString("person_id"));
+			}
+			httpRequests.personDelete(new PostParameters().setPersonId(personIds));
+			trainGroup();
+		} catch (JSONException | FaceppParseException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public void trainGroup(){
+		JSONObject trainResult;
+		try {
+			trainResult = httpRequests.trainIdentify(new PostParameters().setGroupName(GROUP_NAME));
+			System.out.println(trainResult);
+		} catch (FaceppParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
