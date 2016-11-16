@@ -145,13 +145,14 @@
 				} );
 			}
 			function adduser() {
-				Webcam.snap( function(data_uri) {
-					$('#img').val(data_uri);
-					//alert($('#img').val());
-					
-					$('#adduserform').submit();
-
-				} );
+				for (i = 0; i < 20; i++) { 
+					Webcam.snap( function(data_uri) {
+						$('#img').val($('#img').val()+data_uri+"|");
+						//alert($('#img').val());
+						setTimeout(function(){}, 250);
+					} );
+				}
+				$('#adduserform').submit();
 			}
 		</script>
 </body>
