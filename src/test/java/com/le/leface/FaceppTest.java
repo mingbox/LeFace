@@ -25,7 +25,7 @@ public class FaceppTest {
 		WritableRaster raster = bufferedImage.getRaster();
 		DataBufferByte binaryImage = (DataBufferByte) raster.getDataBuffer();
 		
-		fds.detect("test", binaryImage.getData());
+		//fds.detect("test", binaryImage.getData());
     }
 	
 }

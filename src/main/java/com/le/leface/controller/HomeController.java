@@ -3,6 +3,9 @@ package com.le.leface.controller;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,7 @@ import com.le.leface.service.UserService;
 @Controller
 public class HomeController {
 	
-	private static final String IMG_PATH = "/Users/mingboxu/tmp.jpg";
+	private static final String IMG_PATH = "/Users/mingboxu/";
 	private static final String IMG = "img";
 
 	@Autowired
@@ -34,8 +37,7 @@ public class HomeController {
 	@RequestMapping(value = "/")
 	public String index(Model model) {
 		
-		User user = userService.getUserById(1L);
-		System.out.println(user.getFirstName() + " " + user.getLastName());
+		//User user = userService.getUserById(1L);
 		return "index";
 	}
 	
@@ -47,7 +49,7 @@ public class HomeController {
 		String personId=faceDetectService.identify(imgByte);
 		if(personId!=null){
 			User user = userService.getUserByFaceId(personId);
-			System.out.println(user.getFirstName());
+			//System.out.println(user.getFirstName());
 			return user.getFirstName()+" "+user.getLastName();
 		}
 		
@@ -55,26 +57,34 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/detect", method = RequestMethod.POST)
-	public String detect(@RequestParam(value = IMG, required = true) String image, @RequestParam String name) {
-
-		byte[] imgByte = this.convertImg(image);
-		String personId=faceDetectService.detect(name, imgByte);
+	public String detect(@RequestParam(value = IMG, required = true) String imagesStr, @RequestParam String name) {
+		List<byte[]> imageList = new ArrayList<byte[]>();
+		
+		int startIndex = 0;
+		for(int i = 0; i < imagesStr.length(); i++){
+			if (imagesStr.charAt(i) == '|'){
+				String picture = imagesStr.substring(startIndex,i);
+				//System.out.println(picture);
+				byte[] imgByte = this.convertImg(picture);
+				imageList.add(imgByte);
+				startIndex = i+1;
+			}
+		}
+		System.out.println(imageList.size());
+		String personId=faceDetectService.detect(name, imageList);
 		if(personId!=null){
 			userService.addUser(new User(personId,name));
 		}
 		
-		return "index";
+		return "redirect:/";
 	}
 	
 	private byte[] convertImg(String img) {
 		byte[] data = Base64.decodeBase64(img.substring(img.indexOf(",")+1));
-//		try (OutputStream stream = new FileOutputStream(IMG_PATH)) {
+//		try (OutputStream stream = new FileOutputStream(IMG_PATH+new Timestamp(System.currentTimeMillis()))) {
 //		    stream.write(data);
+//		} catch (IOException e) {
 //		}
-//		File imgPath = new File(IMG_PATH);
-//		BufferedImage bufferedImage = ImageIO.read(imgPath);
-//		WritableRaster raster = bufferedImage.getRaster();
-//		DataBufferByte binaryImage = (DataBufferByte) raster.getDataBuffer();
 		return data;
 	}
 
