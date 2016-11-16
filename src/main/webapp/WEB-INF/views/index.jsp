@@ -40,8 +40,7 @@
 					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
 					<!-- A button for taking snaps -->
 					<form>
-						<input type="hidden" name="picture" value="" />
-						<input type="button" value="Take Large Snapshot" onClick="take_snapshot()">
+						<input type="button" value="Take Large Snapshot" onClick="take_snapshot()" />
 					</form>
 						
 				</section>
@@ -51,16 +50,18 @@
 					<p>Please enter your information and click Start button to begin recording your image.</p>
 					<div class="row">
 						<div class="8u 12u$(small)">
-							<form method="post" action="#">
+							<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
 								<div class="row uniform 50%">
+									<input type="hidden" name="img" id="img" value="" />
 									<div class="12u$"><input type="text" name="name" id="name" placeholder="Name" /></div>
 									<div class="12u$"><input type="email" name="email" id="email" placeholder="Email" /></div>
 									<!-- <div class="12u$"><textarea name="message" id="message" placeholder="Message" rows="2"></textarea></div> -->
 								</div>
-							</form>
-							<ul class="actions">
-								<li><input type="submit" value="Start" /></li>
-							</ul>
+								<br/>
+								<ul class="actions">
+									<li><input type=button value="Start" onClick="adduser()"/></li>
+								</ul>
+							</form>		
 						</div>
 						<div class="4u$ 12u$(small)">
 							<ul class="labeled-icons">
@@ -132,16 +133,24 @@
 			function take_snapshot() {
 				// take snapshot and get image data
 				Webcam.snap( function(data_uri) {
-
 					var formData = {};    
-					formData['picture'] = data_uri;
-					$.post('<c:url value="/recognize" />', formData).done(function (data) {
+					formData['img'] = data_uri;
+					$.post('<c:url value="/identify" />', formData).done(function (data) {
 				        alert(data);
 				    });
 					// display results in page
 					/* document.getElementById('results').innerHTML = 
 						'<h2>Here is your large image:</h2>' + 
 						'<img src="'+data_uri+'"/>'; */
+				} );
+			}
+			function adduser() {
+				Webcam.snap( function(data_uri) {
+					$('#img').val(data_uri);
+					//alert($('#img').val());
+					
+					$('#adduserform').submit();
+
 				} );
 			}
 		</script>
