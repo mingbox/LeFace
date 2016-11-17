@@ -40,16 +40,8 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value = "/identify", method = RequestMethod.POST)
 	public String identify(@RequestParam(value = IMG, required = true) String image) {
-
 		byte[] imgByte = this.convertImg(image);
-		String personId=faceDetectService.identify(imgByte);
-		if(personId!=null){
-			User user = userService.getUserByFaceId(personId);
-			//System.out.println(user.getFirstName());
-			return user.getFirstName()+" "+user.getLastName();
-		}
-		
-		return "";
+		return faceDetectService.identify(imgByte);
 	}
 
 	@RequestMapping(value = "/detect", method = RequestMethod.POST)
