@@ -24,6 +24,8 @@ import com.le.leface.service.UserService;
 @Controller
 public class HomeController {
 	
+	//private static final String IMG_PATH = "/Users/mingboxu/";
+
 	private static final String IMG = "img";
 
 	@Autowired
@@ -52,13 +54,11 @@ public class HomeController {
 		for(int i = 0; i < imagesStr.length(); i++){
 			if (imagesStr.charAt(i) == '|'){
 				String picture = imagesStr.substring(startIndex,i);
-				//System.out.println(picture);
 				byte[] imgByte = this.convertImg(picture);
 				imageList.add(imgByte);
 				startIndex = i+1;
 			}
 		}
-		System.out.println(imageList.size());
 		String personId=faceDetectService.detect(name, imageList);
 		if(personId!=null){
 			userService.addUser(new User(personId,name));

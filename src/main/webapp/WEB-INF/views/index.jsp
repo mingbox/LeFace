@@ -15,6 +15,7 @@
 		form > input { margin-right: 15px; }
 		#my_camera { margin:auto; }
 		#results { margin:20px auto; padding:10px; border:1px solid; background:#ccc; width: 300px;}
+		#middle { margin:20px auto; width: 30%;}
 	</style>
 </head>
 <body id="top">
@@ -36,12 +37,9 @@
 						<h2>LeEco TV face recognition interface</h2>
 					</header>
 					<div id="my_camera"></div>
-					<div id="results">Recognition result will appear here...</div>
+					<!-- <div id="results">Recognition result will appear here...</div> -->
+					<div id="middle"><input style="width:100%;" type="button" value="Start Recognition" onClick="startLoop()" /></div>
 					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
-					<!-- A button for taking snaps -->
-					<form>
-						<input type="button" value="Take Large Snapshot" onClick="take_snapshot()" />
-					</form>
 						
 				</section>
 
@@ -136,7 +134,7 @@
 					var formData = {};    
 					formData['img'] = data_uri;
 					$.post('<c:url value="/identify" />', formData).done(function (data) {
-				        alert(data);
+				        alert("Hello, "+data);
 				    });
 					// display results in page
 					/* document.getElementById('results').innerHTML = 
@@ -145,7 +143,7 @@
 				} );
 			}
 			function adduser() {
-				for (i = 0; i < 20; i++) { 
+				for (i = 0; i < 5; i++) { 
 					Webcam.snap( function(data_uri) {
 						$('#img').val($('#img').val()+data_uri+"|");
 						//alert($('#img').val());
@@ -153,6 +151,9 @@
 					} );
 				}
 				$('#adduserform').submit();
+			}
+			function startLoop() {
+				window.setInterval(function(){take_snapshot();}, 5000);	
 			}
 		</script>
 </body>
