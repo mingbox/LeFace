@@ -27,22 +27,44 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 
 	@Override
 	public String identify(byte[] img) {
+		String result="";
 		try {
 			JSONObject syncRet = httpRequests
-					.recognitionIdentify(new PostParameters().setGroupName(GROUP_NAME).setImg(img).setMode(MODE));
+					.recognitionIdentify(new PostParameters().setGroupName(GROUP_NAME).setImg(img).setMode("normal"));
 			if (syncRet != null) {
-				JSONObject person = (JSONObject) syncRet.getJSONArray("face").getJSONObject(0).getJSONArray("candidate")
-						.getJSONObject(0);
-				Double confidence = person.getDouble("confidence");
-				//String personId = person.getString("person_id");
-				if (confidence.doubleValue() > 30) {
-					return person.getString("tag");
+				int numPerson=detectNumPerson(img);
+				int numResult=syncRet.getJSONArray("face").length();
+				if(numPerson==0||numResult>numPerson){
+					numResult=numPerson;
+				}
+				for(int i=0;i<numResult;i++){
+					JSONObject person = (JSONObject) syncRet.getJSONArray("face").getJSONObject(i).getJSONArray("candidate").getJSONObject(0);
+					Double confidence = person.getDouble("confidence");
+					if (confidence.doubleValue() > 30) {
+						result+=person.getString("tag")+",";
+					}
+				}
+				if(result.length()>0){
+					result=result.substring(0, result.length()-1);
 				}
 			}
 		} catch (FaceppParseException | JSONException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
+	}
+
+	public int detectNumPerson(byte[] img) {
+		int num = 0;
+		try {
+			JSONObject result = httpRequests.detectionDetect(new PostParameters().setImg(img).setMode("normal"));
+			if (result != null) {
+				num = result.getJSONArray("face").length();
+			}
+		} catch (FaceppParseException | JSONException e) {
+			e.printStackTrace();
+		}
+		return num;
 	}
 
 	@Override
@@ -56,7 +78,8 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 					faceList.add(face.getString("face_id"));
 				}
 			}
-			JSONObject personResult = httpRequests.personCreate(new PostParameters().setGroupName(GROUP_NAME).setFaceId(faceList).setTag(name));
+			JSONObject personResult = httpRequests
+					.personCreate(new PostParameters().setGroupName(GROUP_NAME).setFaceId(faceList).setTag(name));
 			trainGroup();
 			return personResult.getString("person_id");
 		} catch (FaceppParseException | JSONException e) {
@@ -67,9 +90,9 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 
 	@Override
 	public JSONObject getPersonList() {
-		JSONObject result=null;
+		JSONObject result = null;
 		try {
-			result= httpRequests.infoGetPersonList();
+			result = httpRequests.infoGetPersonList();
 		} catch (FaceppParseException e) {
 			e.printStackTrace();
 		}
@@ -87,23 +110,23 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 	}
 
 	@Override
-	public void removeAllPersons(){
-		JSONObject result=getPersonList();
-		ArrayList<String> personIds=new ArrayList<String>();
+	public void removeAllPersons() {
+		JSONObject result = getPersonList();
+		ArrayList<String> personIds = new ArrayList<String>();
 		try {
 			JSONArray personList;
 			personList = result.getJSONArray("person");
-			for(int i=0;i<personList.length();i++){
+			for (int i = 0; i < personList.length(); i++) {
 				personIds.add(personList.getJSONObject(i).getString("person_id"));
 			}
 			httpRequests.personDelete(new PostParameters().setPersonId(personIds));
 			trainGroup();
 		} catch (JSONException | FaceppParseException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
-	public void trainGroup(){
+
+	public void trainGroup() {
 		JSONObject trainResult;
 		try {
 			trainResult = httpRequests.trainIdentify(new PostParameters().setGroupName(GROUP_NAME));
