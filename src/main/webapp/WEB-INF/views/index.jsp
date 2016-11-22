@@ -7,14 +7,14 @@
 
 <html lang="en">
 <head>
-	<title>Strata by HTML5 UP</title>
+	<title>LeFace by LeEco</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="<c:url value='/css/main.css' />" />
 	<style type="text/css">
 		form > input { margin-right: 15px; }
 		#my_camera { margin:auto; }
-		#results { margin:20px auto; padding:10px; border:1px solid; background:#ccc; width: 300px;}
+		#results { margin:20px auto; padding:10px; border:1px solid; background:#ccc; width: 500px;}
 		#middle { margin:20px auto; width: 30%;}
 	</style>
 </head>
@@ -37,7 +37,7 @@
 						<h2>LeEco TV face recognition interface</h2>
 					</header>
 					<div id="my_camera"></div>
-					<!-- <div id="results">Recognition result will appear here...</div> -->
+					<div id="results">Recognition result will appear here...</div>
 					<div id="middle"><input style="width:100%;" type="button" value="Start Recognition" onClick="startLoop()" /></div>
 					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
 						
@@ -108,8 +108,8 @@
 		<script language="JavaScript">
 			Webcam.set({
 				// live preview size
-				width: 320,
-				height: 240,
+				width: 480,
+				height: 360,
 				
 				// device capture size
 				dest_width: 640,
@@ -134,7 +134,10 @@
 					var formData = {};    
 					formData['img'] = data_uri;
 					$.post('<c:url value="/identify" />', formData).done(function (data) {
-				        alert("Hello, "+data);
+						if(data != ""){
+							//alert("Hello, "+data);
+							$('#results').html( "Hello, "+data );
+						}	        
 				    });
 					// display results in page
 					/* document.getElementById('results').innerHTML = 
@@ -143,7 +146,7 @@
 				} );
 			}
 			function adduser() {
-				for (i = 0; i < 5; i++) { 
+				for (i = 0; i < 8; i++) { 
 					Webcam.snap( function(data_uri) {
 						$('#img').val($('#img').val()+data_uri+"|");
 						//alert($('#img').val());
@@ -153,7 +156,7 @@
 				$('#adduserform').submit();
 			}
 			function startLoop() {
-				window.setInterval(function(){take_snapshot();}, 5000);	
+				window.setInterval(function(){take_snapshot();}, 1000);	
 			}
 		</script>
 </body>
