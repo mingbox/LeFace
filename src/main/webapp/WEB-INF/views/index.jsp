@@ -38,9 +38,8 @@
 					</header>
 					<div id="my_camera"></div>
 					<div id="results">Recognition result will appear here...</div>
-					<div id="middle"><input style="width:100%;" type="button" value="Start Recognition" onClick="startLoop()" /></div>
+					<!-- <div id="middle"><input style="width:100%;" type="button" value="Start Recognition" onClick="startLoop()" /></div> -->
 					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
-						
 				</section>
 
 				<section id="three">
@@ -103,7 +102,49 @@
 		
 		<!-- First, include the Webcam.js JavaScript Library -->
 		<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
-		
+		<!-- Code to handle taking the snapshot and displaying it locally -->
+		<script language="JavaScript">
+			function take_snapshot() {
+				// take snapshot and get image data
+				Webcam.snap( function(data_uri) {
+					var formData = {};    
+					formData['img'] = data_uri;
+					/* jQuery.ajax({
+				        url: '<c:url value="/identify" />' ,
+				        type: "POST",
+				        data : formData,
+				        success: function (result) {
+				            if (result.isOk == false) {
+				            	if(data != ""){
+									//alert("Hello, "+data);
+				            		$('#results').html( "Hello, "+data );
+				            	}
+				            }
+				        },
+				        async: false
+				    }); */
+					$.post('<c:url value="/identify" />', formData).done(function (data) {
+						if(data != ""){
+							//alert("Hello, "+data);
+							$('#results').html( "Hello, "+data );
+						}	        
+				    });
+				} );
+			}
+			function adduser() {
+				for (i = 0; i < 8; i++) { 
+					Webcam.snap( function(data_uri) {
+						$('#img').val($('#img').val()+data_uri+"|");
+						//alert($('#img').val());
+						setTimeout(function(){}, 250);
+					} );
+				}
+				$('#adduserform').submit();
+			}
+			function startLoop() {
+				window.setInterval(function(){take_snapshot();}, 2000);	
+			}
+		</script>
 		<!-- Configure a few settings and attach camera -->
 		<script language="JavaScript">
 			Webcam.set({
@@ -125,39 +166,7 @@
 			});
 			
 			Webcam.attach( '#my_camera' );
-		</script>
-		<!-- Code to handle taking the snapshot and displaying it locally -->
-		<script language="JavaScript">
-			function take_snapshot() {
-				// take snapshot and get image data
-				Webcam.snap( function(data_uri) {
-					var formData = {};    
-					formData['img'] = data_uri;
-					$.post('<c:url value="/identify" />', formData).done(function (data) {
-						if(data != ""){
-							//alert("Hello, "+data);
-							$('#results').html( "Hello, "+data );
-						}	        
-				    });
-					// display results in page
-					/* document.getElementById('results').innerHTML = 
-						'<h2>Here is your large image:</h2>' + 
-						'<img src="'+data_uri+'"/>'; */
-				} );
-			}
-			function adduser() {
-				for (i = 0; i < 8; i++) { 
-					Webcam.snap( function(data_uri) {
-						$('#img').val($('#img').val()+data_uri+"|");
-						//alert($('#img').val());
-						setTimeout(function(){}, 250);
-					} );
-				}
-				$('#adduserform').submit();
-			}
-			function startLoop() {
-				window.setInterval(function(){take_snapshot();}, 1000);	
-			}
+			startLoop();
 		</script>
 </body>
 </html>
