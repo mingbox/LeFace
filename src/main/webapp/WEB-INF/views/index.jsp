@@ -126,8 +126,11 @@
 					$.post('<c:url value="/identify" />', formData).done(function (data) {
 						if(data != ""){
 							//alert("Hello, "+data);
-							$('#results').html( "Hello, "+data );
-						}	        
+							$('#results').html( data );
+						}
+						/* } else {
+							$('#results').html( "Recognition result will appear here..." );
+						} */	        
 				    });
 				} );
 			}
@@ -142,7 +145,7 @@
 				$('#adduserform').submit();
 			}
 			function startLoop() {
-				window.setInterval(function(){take_snapshot();}, 2000);	
+				window.setInterval(function(){take_snapshot();}, 2500);	
 			}
 		</script>
 		<!-- Configure a few settings and attach camera -->

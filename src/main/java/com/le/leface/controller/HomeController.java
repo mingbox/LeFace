@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.le.leface.models.User;
 import com.le.leface.service.FaceDetectService;
 import com.le.leface.service.UserService;
+import com.le.leface.service.WatcherStateChangeHandler;
 
 
 @Controller
@@ -34,6 +35,9 @@ public class HomeController {
 	@Autowired
 	FaceDetectService faceDetectService;
 	
+	@Autowired
+    private WatcherStateChangeHandler watcherStateChangeHandler;
+	
 	@RequestMapping(value = "/")
 	public String index(Model model) {
 		return "index";
@@ -43,7 +47,8 @@ public class HomeController {
 	@RequestMapping(value = "/identify", method = RequestMethod.POST)
 	public String identify(@RequestParam(value = IMG, required = true) String image) {
 		byte[] imgByte = this.convertImg(image);
-		return faceDetectService.identify(imgByte);
+		String names = faceDetectService.identify(imgByte);
+		return watcherStateChangeHandler.generateResponse(names);
 	}
 
 	@RequestMapping(value = "/detect", method = RequestMethod.POST)
