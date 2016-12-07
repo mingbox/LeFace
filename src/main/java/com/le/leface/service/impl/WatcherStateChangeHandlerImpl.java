@@ -31,42 +31,56 @@ public class WatcherStateChangeHandlerImpl implements WatcherStateChangeHandler{
 
 	@Override
 	public String generateResponse(String names) {
-		
-		if (names.isEmpty()) {
-			return "";
-		} else {
-			return this.updateStateAndGenerateMessage(names);
-		}
-	}
-
-	private String updateStateAndGenerateMessage(String names) {
 		String message = "";
 		@SuppressWarnings("unchecked")
 		Set<String> nameSetCurrent = (Set<String>) servletContext.getAttribute("nameSetCurrent");
 		Set<String> nameSetNew = new HashSet<String>();
 		String[] nameArr = names.split(",");
+		boolean showWatcherConfig = false; // only show this if state changed
+		
 		for (int i = 0; i < nameArr.length; i++){
-			nameSetNew.add(nameArr[i]);
+			if(nameArr[i].equals("?")){
+				message += "We have a new comer! Could you tell me who you are?<br>";
+				showWatcherConfig = true;
+			} else if(!nameArr[i].equals("")) {
+				nameSetNew.add(nameArr[i]);
+			}
 		}
 		
 		if(nameSetCurrent == null) nameSetCurrent = new HashSet<String>(); //prevent NPE
 		
+		boolean leavingFlag = false;
 		for (String s : nameSetCurrent){
 			if(!nameSetNew.contains(s)){
-				message += "Goodbye "+s+"! ";
+				message += "Goodbye "+s+"!<br>";
+				leavingFlag = true;
+				showWatcherConfig = true;
+			}
+		}
+		if(leavingFlag){
+			for (String s : nameSetCurrent){
+				if(nameSetNew.contains(s)){
+					message += s+", Would you like to continue to watch "+messageMap.get(s)+"?<br>";
+				}
 			}
 		}
 		for (String s : nameSetNew){
 			if(!nameSetCurrent.contains(s)){
-				message += "Hello "+s+"! Would you like to watch "+messageMap.get(s)+"? ";
+				message += "Hello "+s+"! Would you like to watch "+messageMap.get(s)+"?<br>";
+				showWatcherConfig = true;
 			}
 		}
-		
+		if (showWatcherConfig){
+			if (names.isEmpty()) {
+				message += "No one's here...";
+			} else {
+				message += "Current watcher: "+nameSetNew;
+			}
+		}
 //		System.out.println("old: "+nameSetCurrent);
 //		System.out.println("new: "+nameSetNew);
 		servletContext.setAttribute("nameSetCurrent",nameSetNew);
 		return message;
 	}
-	
 	
 }

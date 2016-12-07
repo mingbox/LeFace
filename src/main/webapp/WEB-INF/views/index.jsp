@@ -142,7 +142,25 @@
 						setTimeout(function(){}, 250);
 					} );
 				}
-				$('#adduserform').submit();
+				//$('#adduserform').submit();
+				var $form = $('#adduserform'),
+	                formData = new FormData(),
+	                params   = $form.serializeArray()
+	                
+	            $.each(params, function(i, val) {
+	                formData.append(val.name, val.value);
+	            });
+				$.ajax({
+	                url: $form.attr('action'),
+	                data: formData,
+	                cache: false,
+	                contentType: false,
+	                processData: false,
+	                type: 'POST',
+	                success: function(result) {
+	                	$('#name').val("");
+	                }
+	            });
 			}
 			function startLoop() {
 				window.setInterval(function(){take_snapshot();}, 2500);	
