@@ -80,7 +80,7 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 			ArrayList<String> faceList = new ArrayList<String>();
 			for (byte[] img : imgList) {
 				JSONObject result = httpRequests.detectionDetect(new PostParameters().setImg(img).setMode(MODE));
-				if (result != null) {
+				if (result != null&&result.getJSONArray("face").length()>0) {
 					JSONObject face = (JSONObject) result.getJSONArray("face").getJSONObject(0);
 					faceList.add(face.getString("face_id"));
 				}
