@@ -24,62 +24,24 @@
 			/* width: 100%;
 			height: 100%; */
 		}
+		#player { position: fixed; top: 0;}
 		#dialogBox { background: rgba(0, 0, 0, .6); position: fixed; bottom: 0; height: 50px; width: 100%; display: none;}
 		#dialog {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
 	</style>
 </head>
 <body id="top">
-	<%-- <header id="header">
-		<div class="inner">
-			<a href="#" class="image avatar"><img src="<c:url value='/images/LeEco.png' />" alt="" /></a>
-			<h1><strong>LeEco</strong> face recognition<br />
-			by open eco San Jose Team.</h1>
+	<div id="my_camera"></div>
+	<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
+		<div class="row uniform 50%">
+			<input type="hidden" name="img" id="img" value="" />
+			<div class="12u$"><input type="hidden" name="name" id="name" placeholder="Name" /></div>
 		</div>
-	</header> --%>
-	<div id="main">
-		<section id="one">
-			<!-- <header class="major">
-				<h2>LeEco TV face recognition interface</h2>
-			</header> -->
-			<div id="my_camera"></div>
-		</section>
+	</form>		
 
-		<section id="three">
-			<!-- <h2>Set up your profile</h2>
-			<p>Please enter your information and click Start button to begin recording your image.</p> -->
-			<div class="row">
-				<div class="8u 12u$(small)">
-					<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
-						<div class="row uniform 50%">
-							<input type="hidden" name="img" id="img" value="" />
-							<div class="12u$"><input type="hidden" name="name" id="name" placeholder="Name" /></div>
-						</div>
-						<br/>
-						<!-- <ul class="actions">
-							<li><input type=button value="Start" onClick="adduser()"/></li>
-						</ul> -->
-					</form>		
-				</div>
-			</div>
-		</section>
-	</div>
-
+	<div id="player"></div><!-- youtube video block -->
 	<div id="dialogBox">
 		<p id="dialog"></p>
 	</div>
-	<!-- <footer id="footer">
-		<div class="inner">
-			<ul class="icons">
-				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-				<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-				<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-			</ul>
-			<ul class="copyright">
-				<li>&copy; LeEco</li>
-			</ul>
-		</div>
-	</footer> -->
 
 	<script src="<c:url value='/js/jquery.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.poptrox.min.js' />"></script>
@@ -87,164 +49,62 @@
 	<script src="<c:url value='/js/util.js' />"></script>
 	<script src="<c:url value='/js/main.js' />"></script>
 	
+	<script type="text/javascript" src="<c:url value='/js/youtubePlayer.js' />"></script>
+	<script type="text/javascript" src="http://code.responsivevoice.org/responsivevoice.js"></script>	
+	<script type="text/javascript" src="<c:url value='/js/screenPrint.js' />"></script>	
+	
 	<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/js/faceRecognitionControl.js' />"></script>
 	
-	<script src="http://code.responsivevoice.org/responsivevoice.js"></script>	
-	<script src="<c:url value='/js/speech.1.0.0.js' />" type="text/javascript"></script>
+	<script type="text/javascript" src="<c:url value='/js/speech.1.0.0.js' />" ></script>
 	<script type="text/javascript" src="<c:url value='/js/voiceRecognitionControl.js' />"></script>
 	
-	<!-- Code to handle taking the snapshot and displaying it locally -->
 	<script language="JavaScript">
-		var newUserOps = "";
-		var watchRecommend = "";
-		var watchingNow= "";
-		var busyFlag = "";
+		var faceBusyFlag = 0;
+		var voiceBusyFlag = 0;
+		var status = "standBy";//newUser; suggestion; playing;
+		var oldFaceResult="";
+		var faceResult="";
+		var videoIdToPlay=0;
 		
-		/* [{"lexical":"sing more","display":"Sing more.","inverseNormalization":null,"maskedInverseNormalization":null,
-			"transcript":"Sing more.","confidence":0.5696079}] */
-		/* voice return logic comes to here */
-		function setText(text) {
-			var array = JSON.parse(text);
-			var obj = array[0];
-			if (newUserOps == 1){
-				if (typeof obj != 'undefined' && 'display' in obj){
-					$('#name').val(obj.display);
-					responsiveVoice.speak(obj.display+", would you please look to the camera?"); 
-					var sId1 = setInterval(function(){
-						if(!responsiveVoice.isPlaying()){
-							takeShotAndRestore(); 
-							setTimeout(function(){
-								clearInterval(sId1);
-							
-								responsiveVoice.speak(obj.display+", would you please turn your head to the left?"); 
-								var sId2 = setInterval(function(){
-									if(!responsiveVoice.isPlaying()){
-										takeShotAndRestore(); 
-										setTimeout(function(){
-											clearInterval(sId2);
-											responsiveVoice.speak(obj.display+", would you please turn your head to the right?"); 
-											var sId3 = setInterval(function(){
-												if(!responsiveVoice.isPlaying()){
-													takeShotAndRestore(); 
-													setTimeout(function(){
-														clearInterval(sId3);
-														adduser(); 
-														responsiveVoice.speak("We have set up your face data profile. Thank you!");
-														newUserOps ="";
-														busyFlag = "";
-													}, 1050);
-												} 
-											},1200);
-										}, 1050);
-									} 
-								},1200); 
-								
-							}, 1050);
-						} 
-					},1200);
-					/* responsiveVoice.speak(obj.display+", would you please turn your head to the left?"); 
-					var sId2 = setInterval(function(){
-						if(!responsiveVoice.isPlaying()){
-							takeShotAndRestore(); 
-							setTimeout(function(){
-								clearInterval(sId2);
-							}, 1050);
-						} 
-					},1200);
-					responsiveVoice.speak(obj.display+", would you please turn your head to the right?"); 
-					var sId3 = setInterval(function(){
-						if(!responsiveVoice.isPlaying()){
-							takeShotAndRestore(); 
-							setTimeout(function(){
-								clearInterval(sId3);
-							}, 1050);
-						} 
-					},1200); */
-				} else {
-					newUserOps ="";
-					busyFlag = "";
-				}
-			} else if (watchRecommend != ""){
-				if (typeof obj != 'undefined' && 'display' in obj){//deal with undefined
-					if (text.includes("Yes")){
-						alert("Start to play"+ watchRecommend +".");
-					} else {
-						alert("Don't play"+ watchRecommend +".");
-					}
-					watchRecommend = "";
-					busyFlag = "";
-				} else {
-					watchRecommend ="";
-					busyFlag = "";
-				}
-				
-			}
-			
-		}
+		var videos = ["OK Go – The One Moment", 
+			"Plane with 48 aboard crashes in Pakistan",
+			"Come Together – directed by Wes Anderson starring Adrien Brody",
+			"Madonna Carpool Karaoke",
+			"Ronda Rousey & Vin Diesel Are 'World Of Warcraft' Buds",
+			"Transformers: The Last Knight - Teaser Trailer",
+			"President Obama on Bipartisan Politics for 'A House Divided'", 
+			"Lin-Manuel Miranda, Opetaia Foa'i - We Know The Way (From 'Moana')"];
+		var videoMap = ["QvW61K2s0tA", 
+				"a7dCcsgsMes",
+				"VDinoNRC49c",
+				"Sx2PfL2ekTY",
+				"AYh5pAQ1hr8",
+				"qLA6cpLwr6A",
+				"SCIZBGMhpRk", 
+				"ubZrAmRxy_M"];
 
-        function startSpeechLoop() {
+		var speechLoop;
+        /* function startSpeechLoop() {
 			window.setInterval(function(){
-				if(!responsiveVoice.isPlaying() && busyFlag == "") {
-					take_sample();
+				if(!responsiveVoice.isPlaying() && voiceBusyFlag == 0) {
+					voiceOperation();
+					//take_sample();
 				}
-			}, 5300);	
-		} 
-        //startSpeechLoop();
-	
-		var showText = function (target, message, index, interval) {   
-		  if (index < message.length) {
-		    $(target).append(message[index++]);
-		    setTimeout(function () { showText(target, message, index, interval); }, interval);
-		  }
-		}
-		function showDialogue(text){
-			$('#dialogBox').show();
-			$('#dialog').html( "" );
-			showText("#dialog", text, 0, 20);   
-		}
-		
-		/* image recognition return logic comes to here */
-		function take_snapshot() {
-			// take snapshot and get image data
-			if(!responsiveVoice.isPlaying() && busyFlag == "") {
-				busyFlag = 1;
-				Webcam.snap( function(data_uri) {
-					var formData = {};  
-					formData['img'] = data_uri;
-					$.post('http://localhost:8080/leface/identify', formData).done(function (data) {
-						if(data != ""){
-							
-							if (data.includes("new comer")){
-								newUserOps = 1;
-							}
-							if (data.includes("Would you like to watch")){
-								watchRecommend = "CNN";
-								data+="CNN";
-							}
-							showDialogue(data);
-							responsiveVoice.speak(data);
-							
-							var timerId = setInterval(function(){
-								if(!responsiveVoice.isPlaying()){
-									take_sample();
-									clearInterval(timerId);
-								} 
-							},200);
-						} else {
-							busyFlag = "";
-						}
-				    });
-				} );
-			}
-		}
-		
-		function startFaceLoop() {
+			}, 4000);	
+		}  
+        startSpeechLoop(); */
+        
+        function startFaceLoop() {
 			window.setInterval(function(){
-				take_snapshot();
+				if(faceBusyFlag == 0) {
+					faceOperation();
+					//take_snapshot();
+				}
 			}, 4000);	
 		}
 		startFaceLoop();
+		
 	</script>
 </body>
 </html>

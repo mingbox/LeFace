@@ -31,21 +31,21 @@ public class WatcherStateChangeHandlerImpl implements WatcherStateChangeHandler{
 
 	@Override
 	public String generateResponse(String names) {
-		String message = "";
-		@SuppressWarnings("unchecked")
-		Set<String> nameSetCurrent = (Set<String>) servletContext.getAttribute("nameSetCurrent");
-		Set<String> nameSetNew = new HashSet<String>();
-		String[] nameArr = names.split(",");
-		boolean showWatcherConfig = false; // only show this if state changed
-		
-		for (int i = 0; i < nameArr.length; i++){
-			if(nameArr[i].equals("?")){
-			} else if(!nameArr[i].equals("")) {
-				nameSetNew.add(nameArr[i]);
-			}
-		}
-		
-		if(nameSetCurrent == null) nameSetCurrent = new HashSet<String>(); //prevent NPE
+//		String message = "";
+//		@SuppressWarnings("unchecked")
+//		Set<String> nameSetCurrent = (Set<String>) servletContext.getAttribute("nameSetCurrent");
+//		Set<String> nameSetNew = new HashSet<String>();
+//		String[] nameArr = names.split(",");
+//		boolean showWatcherConfig = false; // only show this if state changed
+//		
+//		for (int i = 0; i < nameArr.length; i++){
+//			if(nameArr[i].equals("?")){
+//			} else if(!nameArr[i].equals("")) {
+//				nameSetNew.add(nameArr[i]);
+//			}
+//		}
+//		
+//		if(nameSetCurrent == null) nameSetCurrent = new HashSet<String>(); //prevent NPE
 		
 //		boolean leavingFlag = false;
 //		for (String s : nameSetCurrent){
@@ -62,18 +62,18 @@ public class WatcherStateChangeHandlerImpl implements WatcherStateChangeHandler{
 //				}
 //			}
 //		}
-		for (String s : nameSetNew){
-			if(!nameSetCurrent.contains(s)){
-				message += "Hello "+s+"! Would you like to watch ";
-				showWatcherConfig = true;
-			}
-		}
-		for (int i = 0; i < nameArr.length; i++){
-			if(nameArr[i].equals("?")){
-				message += "We have a new comer! Could you tell me who you are? ";
-				showWatcherConfig = true;
-			}
-		}
+//		for (String s : nameSetNew){
+//			if(!nameSetCurrent.contains(s)){
+//				message += "Hello "+s+"! Would you like to watch ";
+//				showWatcherConfig = true;
+//			}
+//		}
+//		for (int i = 0; i < nameArr.length; i++){
+//			if(nameArr[i].equals("?")){
+//				message += "We have a new comer! Could you tell me who you are? ";
+//				showWatcherConfig = true;
+//			}
+//		}
 //		if (showWatcherConfig){
 //			if (names.isEmpty()) {
 //				message += "No one's here...";
@@ -83,8 +83,8 @@ public class WatcherStateChangeHandlerImpl implements WatcherStateChangeHandler{
 //		}
 //		System.out.println("old: "+nameSetCurrent);
 //		System.out.println("new: "+nameSetNew);
-		servletContext.setAttribute("nameSetCurrent",nameSetNew);
-		return message;
+//		servletContext.setAttribute("nameSetCurrent",nameSetNew);
+		return names;
 	}
 	
 }
