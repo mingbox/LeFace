@@ -12,182 +12,99 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="<c:url value='/css/main.css' />" />
 	<style type="text/css">
-		form > input { margin-right: 15px; }
-		#my_camera { margin:auto; }
+		/* form > input { margin-right: 15px; }
 		#results { margin:20px auto; padding:10px; border:1px solid; background:#ccc; width: 500px;}
-		#middle { margin:20px auto; width: 30%;}
+		#middle { margin:20px auto; width: 30%;} */
+		#my_camera { margin:auto; display: none;}
+		body {
+			position: absolute;
+			background-image: url("<c:url value='/images/x8vJ9Zc.jpeg' />"); 
+			background-repeat: no-repeat;
+			background-size: cover;
+			/* width: 100%;
+			height: 100%; */
+		}
+		#player { position: fixed; top: 0;}
+		#dialogBox { background: rgba(0, 0, 0, .6); position: fixed; bottom: 0; height: 50px; width: 100%; display: none;}
+		#dialog {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
 	</style>
 </head>
 <body id="top">
-	<!-- Header -->
-		<header id="header">
-			<div class="inner">
-				<a href="#" class="image avatar"><img src="<c:url value='/images/LeEco.png' />" alt="" /></a>
-				<h1><strong>LeEco</strong> face recognition<br />
-				by open eco San Jose Team.</h1>
-			</div>
-		</header>
-
-	<!-- Main -->
-		<div id="main">
-
-			<!-- One -->
-				<section id="one">
-					<header class="major">
-						<h2>LeEco TV face recognition interface</h2>
-					</header>
-					<div id="my_camera"></div>
-					<div id="results">Recognition result will appear here...</div>
-					<!-- <div id="middle"><input style="width:100%;" type="button" value="Start Recognition" onClick="startLoop()" /></div> -->
-					<!-- <p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p> -->
-				</section>
-
-				<section id="three">
-					<h2>Set up your profile</h2>
-					<p>Please enter your information and click Start button to begin recording your image.</p>
-					<div class="row">
-						<div class="8u 12u$(small)">
-							<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
-								<div class="row uniform 50%">
-									<input type="hidden" name="img" id="img" value="" />
-									<div class="12u$"><input type="text" name="name" id="name" placeholder="Name" /></div>
-									<div class="12u$"><input type="email" name="email" id="email" placeholder="Email" /></div>
-									<!-- <div class="12u$"><textarea name="message" id="message" placeholder="Message" rows="2"></textarea></div> -->
-								</div>
-								<br/>
-								<ul class="actions">
-									<li><input type=button value="Start" onClick="adduser()"/></li>
-								</ul>
-							</form>		
-						</div>
-						<div class="4u$ 12u$(small)">
-							<ul class="labeled-icons">
-								<li>
-									<h3 class="icon fa-home"><span class="label">Address</span></h3>
-									3553 North 1st Street<br />
-									San Jose, CA 95134<br />
-									United States
-								</li>
-								<li>
-									<h3 class="icon fa-envelope-o"><span class="label">Email</span></h3>
-									<a href="#">mingbo.xu@le.com</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</section>
+	<div id="my_camera"></div>
+	<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
+		<div class="row uniform 50%">
+			<input type="hidden" name="img" id="img" value="" />
+			<div class="12u$"><input type="hidden" name="name" id="name" placeholder="Name" /></div>
 		</div>
+	</form>		
 
-	<!-- Footer -->
-		<footer id="footer">
-			<div class="inner">
-				<ul class="icons">
-					<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-					<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-					<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-					<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
-				</ul>
-				<ul class="copyright">
-					<li>&copy; LeEco</li>
-				</ul>
-			</div>
-		</footer>
+	<div id="player"></div><!-- youtube video block -->
+	<div id="dialogBox">
+		<p id="dialog"></p>
+	</div>
 
-	<!-- Scripts -->
-		<script src="<c:url value='/js/jquery.min.js' />"></script>
-		<script src="<c:url value='/js/jquery.poptrox.min.js' />"></script>
-		<script src="<c:url value='/js/skel.min.js' />"></script>
-		<script src="<c:url value='/js/util.js' />"></script>
-		<script src="<c:url value='/js/main.js' />"></script>
+	<script src="<c:url value='/js/jquery.min.js' />"></script>
+	<script src="<c:url value='/js/jquery.poptrox.min.js' />"></script>
+	<script src="<c:url value='/js/skel.min.js' />"></script>
+	<script src="<c:url value='/js/util.js' />"></script>
+	<script src="<c:url value='/js/main.js' />"></script>
+	
+	<script type="text/javascript" src="<c:url value='/js/youtubePlayer.js' />"></script>
+	<script type="text/javascript" src="http://code.responsivevoice.org/responsivevoice.js"></script>	
+	<script type="text/javascript" src="<c:url value='/js/screenPrint.js' />"></script>	
+	
+	<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/js/faceRecognitionControl.js' />"></script>
+	
+	<script type="text/javascript" src="<c:url value='/js/speech.1.0.0.js' />" ></script>
+	<script type="text/javascript" src="<c:url value='/js/voiceRecognitionControl.js' />"></script>
+	
+	<script language="JavaScript">
+		var faceBusyFlag = 0;
+		var voiceBusyFlag = 0;
+		var status = "standBy";//newUser; suggestion; playing;
+		var oldFaceResult="";
+		var faceResult="";
+		var videoIdToPlay=0;
 		
-		<!-- First, include the Webcam.js JavaScript Library -->
-		<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
-		<!-- Code to handle taking the snapshot and displaying it locally -->
-		<script language="JavaScript">
-			function take_snapshot() {
-				// take snapshot and get image data
-				Webcam.snap( function(data_uri) {
-					var formData = {};    
-					formData['img'] = data_uri;
-					/* jQuery.ajax({
-				        url: '<c:url value="/identify" />' ,
-				        type: "POST",
-				        data : formData,
-				        success: function (result) {
-				            if (result.isOk == false) {
-				            	if(data != ""){
-									//alert("Hello, "+data);
-				            		$('#results').html( "Hello, "+data );
-				            	}
-				            }
-				        },
-				        async: false
-				    }); */
-					$.post('<c:url value="/identify" />', formData).done(function (data) {
-						if(data != ""){
-							//alert("Hello, "+data);
-							$('#results').html( data );
-						}
-						/* } else {
-							$('#results').html( "Recognition result will appear here..." );
-						} */	        
-				    });
-				} );
-			}
-			function adduser() {
-				for (i = 0; i < 8; i++) { 
-					Webcam.snap( function(data_uri) {
-						$('#img').val($('#img').val()+data_uri+"|");
-						//alert($('#img').val());
-						setTimeout(function(){}, 250);
-					} );
+		var videos = ["OK Go – The One Moment", 
+			"Plane with 48 aboard crashes in Pakistan",
+			"Come Together – directed by Wes Anderson starring Adrien Brody",
+			"Madonna Carpool Karaoke",
+			"Ronda Rousey & Vin Diesel Are 'World Of Warcraft' Buds",
+			"Transformers: The Last Knight - Teaser Trailer",
+			"President Obama on Bipartisan Politics for 'A House Divided'", 
+			"Lin-Manuel Miranda, Opetaia Foa'i - We Know The Way (From 'Moana')"];
+		var videoMap = ["QvW61K2s0tA", 
+				"a7dCcsgsMes",
+				"VDinoNRC49c",
+				"Sx2PfL2ekTY",
+				"AYh5pAQ1hr8",
+				"qLA6cpLwr6A",
+				"SCIZBGMhpRk", 
+				"ubZrAmRxy_M"];
+
+		var speechLoop;
+        /* function startSpeechLoop() {
+			window.setInterval(function(){
+				if(!responsiveVoice.isPlaying() && voiceBusyFlag == 0) {
+					voiceOperation();
+					//take_sample();
 				}
-				//$('#adduserform').submit();
-				var $form = $('#adduserform'),
-	                formData = new FormData(),
-	                params   = $form.serializeArray()
-	                
-	            $.each(params, function(i, val) {
-	                formData.append(val.name, val.value);
-	            });
-				$.ajax({
-	                url: $form.attr('action'),
-	                data: formData,
-	                cache: false,
-	                contentType: false,
-	                processData: false,
-	                type: 'POST',
-	                success: function(result) {
-	                	$('#name').val("");
-	                }
-	            });
-			}
-			function startLoop() {
-				window.setInterval(function(){take_snapshot();}, 2500);	
-			}
-		</script>
-		<!-- Configure a few settings and attach camera -->
-		<script language="JavaScript">
-			Webcam.set({
-				// live preview size
-				width: 480,
-				height: 360,
-				
-				// device capture size
-				dest_width: 640,
-				dest_height: 480,
-				
-				// final cropped size
-				crop_width: 480,
-				crop_height: 480,
-				
-				// format and quality
-				image_format: 'jpeg',
-				jpeg_quality: 90
-			});
-			
-			Webcam.attach( '#my_camera' );
-			startLoop();
-		</script>
+			}, 4000);	
+		}  
+        startSpeechLoop(); */
+        
+        function startFaceLoop() {
+			window.setInterval(function(){
+				if(faceBusyFlag == 0) {
+					faceOperation();
+					//take_snapshot();
+				}
+			}, 4000);	
+		}
+		startFaceLoop();
+		
+	</script>
 </body>
 </html>

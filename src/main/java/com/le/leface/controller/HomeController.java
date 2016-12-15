@@ -43,6 +43,11 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/camera")
+	public String showCamera(Model model) {
+		return "showCamera";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/identify", method = RequestMethod.POST)
 	public String identify(@RequestParam(value = IMG, required = true) String image) {
