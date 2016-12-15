@@ -1,56 +1,41 @@
+function greeting(ppl){
+	var textToShow = "Hi "+name+", let me know if you need anything.";
+	showDialogue(textToShow);
+	bobSpeak(textToShow);
+}
 
 function dealNewUser(){
 	var textToShow = "Hello";
 	showDialogue(textToShow);
-	responsiveVoice.speak(textToShow);
+	bobSpeak(textToShow);
 	textToShow = "I'm Bob";
 	setTimeout(function(){
 		showDialogue(textToShow);
-		responsiveVoice.speak(textToShow);
-		textToShow = "What’s your name?";
+		bobSpeak(textToShow);
+		textToShow = "What's your name?";
 		setTimeout(function(){
 			showDialogue(textToShow);
-			responsiveVoice.speak(textToShow);
+			bobSpeak(textToShow);
 			setTimeout(function(){
 				status = 'newUser';
 				speechLoop = setInterval(function(){
-					if(!responsiveVoice.isPlaying() && voiceBusyFlag==0){
-						take_voice_sample();
+					if(!responsiveVoice.isPlaying()){
+						take_voice_sample(true);
 					} 
-				},3500);
-			}, 2000);
+				},3300);
+			}, 4000);
 		}, 2000);
 	}, 2000);
 }
 
-function dealKnownUser(name){
-	var textToShow = "Hi "+name;
-	videoIdToPlay = Math.floor((Math.random() * 8));
-	
-	showDialogue(textToShow);
-	responsiveVoice.speak(textToShow);
-	textToShow = "Want to watch "+ videos[videoIdToPlay] +"?";
-	setTimeout(function(){
-		showDialogue(textToShow);
-		responsiveVoice.speak(textToShow);
-		setTimeout(function(){
-			status = 'suggestion';
-			speechLoop = setInterval(function(){
-				if(!responsiveVoice.isPlaying() && voiceBusyFlag==0){
-					take_voice_sample();
-				} 
-			},3500);
-		}, 2000);
-	}, 2000);
-}
-
-function voiceFinishCallBack(){
-	faceBusyFlag = 0;
-	status = 'standBy';
-	$('#dialogBox').hide();
-	$('#dialog').html( "" );
-	clearInterval(speechLoop);
-}
+//function voiceFinishCallBack(){
+//	faceBusyFlag = 0;
+//	status = 'standBy';
+//	$('#dialogBox').hide();
+//	$('#dialog').html( "" );
+//	stopVideo();
+//	//clearInterval(speechLoop);
+//}
 
 function faceOperation(){
 	take_snapshot();
@@ -62,26 +47,28 @@ function evaluateFaceResult(){
 	var oldppl = oldFaceResult.split(',');
 	var newppl = faceResult.split(',');
 	var arrayLength = newppl.length;
+	
+	if (arrayLength==0){
+		reset();
+	}
+	
 	for (var i = 0; i < arrayLength; i++) {
 	    var ppl = newppl[i];
 	    if (oldppl.indexOf(ppl) == -1 && ppl != "?") {
-	    	faceBusyFlag = 1;//won't set back until the callback function is executed
-	    	//check status first and then do the following
 	    	if (status == "standBy"){
-		    	//deal with new recognized ppl, if he say no, remove him from array
-	    		dealKnownUser(ppl);
-		    	//need to think about more than 1 
+	    		greeting(ppl);
 	    	}
 	    	return;
 	    } 
 	}
 	
 	if (newppl == '?') {
-		if(faceBusyFlag == 1) return;//prevent check lag
-    	faceBusyFlag = 1;
-    	status = 'newUser';
-    	//deal with new commer
-    	dealNewUser();
+		if (status == "standBy"){
+	    	faceBusyFlag = 1;
+	    	voiceBusyFlag = 1;
+	    	status = 'newUser';
+	    	dealNewUser();
+		}
     	return;
 	} 
 }

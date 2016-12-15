@@ -41,7 +41,7 @@ public class FaceDetectServiceFacePPImpl implements FaceDetectService {
 				for(int i=0;i<numResult;i++){
 					JSONObject person = (JSONObject) syncRet.getJSONArray("face").getJSONObject(i).getJSONArray("candidate").getJSONObject(0);
 					Double confidence = person.getDouble("confidence");
-					if (confidence.doubleValue() > 35) {
+					if (confidence.doubleValue() > 25) {
 						result+=person.getString("tag")+",";
 						detected++;
 					}

@@ -1,7 +1,17 @@
 package com.le.leface.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 import org.json.JSONArray;
@@ -46,6 +56,43 @@ public class HomeController {
 	@RequestMapping(value = "/camera")
 	public String showCamera(Model model) {
 		return "showCamera";
+	}
+	@RequestMapping(value = "/audioTest")
+	public String audioTest(Model model) {
+		return "audioTest";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/audioFile", method = RequestMethod.GET)
+	public void audioFileGet(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "fileName", required = true) String fileName) throws IOException {
+		InputStream fileStream = null;
+		try {
+		  response.addHeader("Cache-Control","no-cache");
+	      fileStream = new FileInputStream(new File("/Users/mingboxu/workspace/LeFace/src/main/webapp/"+fileName+".wav"));
+	      org.apache.commons.io.IOUtils.copy(fileStream, response.getOutputStream());
+	      response.flushBuffer();
+	    } catch (IOException ex) {
+	      //log.info("Error writing file to output stream. Filename was '{}'", fileName, ex);
+	      throw new RuntimeException("IOError writing file to output stream");
+	    } finally {
+	    	fileStream.close();
+	    }
+//		String dataDirectory = request.getServletContext().getRealPath("/");
+//        Path file = Paths.get(dataDirectory, "aa.wav");
+//        if (Files.exists(file)) 
+//        {
+//            response.setContentType("audio/x-wav");
+//            response.addHeader("Content-Disposition", "attachment; filename=aa.wav");
+//            response.addHeader("Cache-Control","no-cache");
+//            try
+//            {
+//                Files.copy(file, response.getOutputStream());
+//                response.getOutputStream().flush();
+//            } 
+//            catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
 	}
 	
 	@ResponseBody

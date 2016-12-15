@@ -31,24 +31,15 @@
 	</style>
 </head>
 <body id="top">
-	<div id="my_camera"></div>
-	<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
-		<div class="row uniform 50%">
-			<input type="hidden" name="img" id="img" value="" />
-			<div class="12u$"><input type="hidden" name="name" id="name" /></div>
-		</div>
-	</form>		
-
-	<div id="player"></div><!-- youtube video block -->
-	<div id="dialogBox">
-		<p id="dialog"></p>
-	</div>
-
 	<script src="<c:url value='/js/jquery.min.js' />"></script>
+	<script src="<c:url value='/js/jquery.poptrox.min.js' />"></script>
+	<script src="<c:url value='/js/skel.min.js' />"></script>
+	<script src="<c:url value='/js/util.js' />"></script>
+	<script src="<c:url value='/js/main.js' />"></script>
 	
 	<script type="text/javascript" src="<c:url value='/js/youtubePlayer.js' />"></script>
 	<script type="text/javascript" src="http://code.responsivevoice.org/responsivevoice.js"></script>	
-	<script type="text/javascript" src="<c:url value='/js/miscUtil.js' />"></script>	
+	<script type="text/javascript" src="<c:url value='/js/screenPrint.js' />"></script>	
 	
 	<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/js/faceRecognitionControl.js' />"></script>
@@ -89,28 +80,9 @@
 					voiceOperation();
 					//take_sample();
 				}
-			}, 3300);	
+			}, 6000);	
 		}  
         startSpeechLoop();
-        
-        function startFaceLoop() {
-			window.setInterval(function(){
-				if(faceBusyFlag == 0) {
-					faceOperation();
-					//take_snapshot();
-				}
-			}, 4000);	
-		}
-		startFaceLoop(); 
-		
-		function reset(){
-			faceBusyFlag = 0;
-			voiceBusyFlag = 0;
-			status = 'standBy';
-			$('#dialogBox').hide();
-			$('#dialog').html( "" );
-			stopVideo();
-		}
 		
 	</script>
 </body>

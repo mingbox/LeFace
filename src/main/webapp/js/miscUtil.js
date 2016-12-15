@@ -9,3 +9,6 @@ function showDialogue(text){
 	$('#dialog').html( "" );
 	showText("#dialog", text, 0, 20);   
 }
+function bobSpeak(text){
+	responsiveVoice.speak(text, "UK English Male");
+}

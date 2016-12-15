@@ -14,7 +14,7 @@ import com.le.leface.service.impl.FaceDetectServiceFacePPImpl;
 
 
 public class FaceppTest {
-	private static final String IMG_PATH = "/Users/mingboxu/tmp.jpg";
+	private static final String IMG_PATH = "/Users/mingboxu/Pictures/obama1.jpg";
 	
 	FaceDetectServiceFacePPImpl fds = new FaceDetectServiceFacePPImpl();
 	

@@ -1,156 +1,200 @@
-var client;
-var request;
-var voiceResult="";
 
 function voiceOperation(){
-	take_voice_sample();
+	take_voice_sample(false);
 }
 
-function evaluateVoiceResult(){
+function suggestVideo(){
+	videoIdToPlay = Math.floor((Math.random() * 7));
+	var textToShow = "Want to watch "+ videos[videoIdToPlay] +"?";
+	playVideo(videoMap[videoIdToPlay]);
+	showDialogue(textToShow);
+	bobSpeak(textToShow);
+//	setTimeout(function(){
+		
+//		speechLoop = setInterval(function(){
+//			if(!responsiveVoice.isPlaying() && voiceBusyFlag==0){
+//				take_voice_sample();
+//			} 
+//		},5000);
+//	}, 2000);
+}
+
+function evaluateVoiceResult(voiceResult){
 	//alert("voice:"+voiceResult);
-	if(typeof voiceResult == 'undefined' || voiceResult == '' || voiceBusyFlag==1) return;
+	if(typeof voiceResult == 'undefined' || voiceResult == '' || voiceBusyFlag == 1) return;
 	var textToShow = "";
 	if(voiceResult == -1) {
-		voiceBusyFlag = 1;
 		//error handling 
 		if (status == "suggestion" || status == "newUser"){
-			textToShow="Sorry, could you please say again?";
-			showDialogue(textToShow);
+			setTimeout(function(){
+				textToShow="Sorry, could you please say that again?";
+				showDialogue(textToShow);
+			}, 2000);
 			//responsiveVoice.speak(textToShow);
 		}
-		voiceBusyFlag = 0;
 		return;
 	} 
 	
 	var array = JSON.parse(voiceResult);
 	var obj = array[0];
-	if (status == "suggestion"){
-		voiceBusyFlag = 1;
-		if (typeof obj != 'undefined' && 'display' in obj){
-			if (obj.display.toLowerCase().includes("yes") ||
-				obj.display.toLowerCase().includes("yea") ||
-				obj.display.toLowerCase().includes("ok") ||
-				obj.display.toLowerCase().includes("sure") ||
-				obj.display.toLowerCase().includes("alright") ||
-				obj.display.toLowerCase().includes("why not")){
-				$('#player').show();
-				playVideo(videoMap[videoIdToPlay]);
-				status = 'playing';
-				//voiceFinishCallBack();
-			} else if (obj.display.toLowerCase().includes("no")) {
-				//alert(obj.display+"|||")
-				faceResult="";
-				voiceFinishCallBack();
-			}
-		} else {
-			textToShow="Sorry, could you please say again?";
-			showDialogue(textToShow);
-			//responsiveVoice.speak(textToShow);
+	if (typeof obj == 'undefined' || !('display' in obj)) return;
+	
+	if (status == "standBy"){
+		if (obj.display.toLowerCase().includes("video")){
+			voiceBusyFlag = 1;
+			status = 'suggestion';
+			suggestVideo();
+			voiceBusyFlag = 0;
+			return;
 		}
-		voiceBusyFlag = 0;
+	}
+	
+	if (status == "suggestion"){
+		if (obj.display.toLowerCase().includes("yes") ||
+			obj.display.toLowerCase().includes("yea") ||
+			obj.display.toLowerCase().includes("ok") ||
+			obj.display.toLowerCase().includes("okay") ||
+			obj.display.toLowerCase().includes("sure") ||
+			obj.display.toLowerCase().includes("alright") ||
+			obj.display.toLowerCase().includes("why not")){
+			voiceBusyFlag = 1;
+			setPlayerFullScreen();
+			$('#dialogBox').hide();
+			$('#dialog').html( "" );
+			status = 'playing';
+			voiceBusyFlag = 0;
+		} else if (obj.display.toLowerCase().includes("no")) {
+			voiceBusyFlag = 1;
+			stopVideo();
+			suggestVideo();
+			voiceBusyFlag = 0;
+		} else if (obj.display.toLowerCase().includes("dismiss")) {
+			reset();
+		}
 		return;
 	}
 	
 	if (status == "playing"){
-		voiceBusyFlag = 1;
-		if (typeof obj != 'undefined' && 'display' in obj){
-			if (obj.display.toLowerCase().includes("no") ||
-				obj.display.toLowerCase().includes("stop") ){
-				faceResult="";
-				voiceFinishCallBack();
-				stopVideo();
-				//$('#player').hide();
-			} 
-		}
-		voiceBusyFlag = 0;
+		if (obj.display.toLowerCase().includes("no") ||
+			obj.display.toLowerCase().includes("stop") ){
+			voiceBusyFlag = 1;
+			status = 'suggestion';
+			stopVideo();
+			cancelPlayerFullScreen();
+			suggestVideo();
+			voiceBusyFlag = 0;
+		} 
 		return;
 	}
 	
 	if (status == "newUser"){
 		voiceBusyFlag = 1;
-		if (typeof obj != 'undefined' && 'display' in obj){
-			$('#name').val(obj.display);
-			showDialogue(obj.display+", would you please look to the camera?")
-			responsiveVoice.speak(obj.display+", would you please look to the camera?"); 
-			var sId1 = setInterval(function(){
-				if(!responsiveVoice.isPlaying()){
-					takeShotAndRestore(); 
-					setTimeout(function(){
-						clearInterval(sId1);
-						showDialogue(obj.display+", would you please turn your head to the left?")
-						responsiveVoice.speak(obj.display+", would you please turn your head to the left?"); 
-						var sId2 = setInterval(function(){
-							if(!responsiveVoice.isPlaying()){
-								takeShotAndRestore(); 
-								setTimeout(function(){
-									clearInterval(sId2);
-									showDialogue(obj.display+", would you please turn your head to the right?")
-									responsiveVoice.speak(obj.display+", would you please turn your head to the right?"); 
-									var sId3 = setInterval(function(){
-										if(!responsiveVoice.isPlaying()){
-											takeShotAndRestore(); 
+		$('#name').val(obj.display);
+		showDialogue(obj.display+", can you do me a favor?")
+		responsiveVoice.speak(obj.display+", can you do me a favor?", "UK English Male"); 
+		var sId1 = setInterval(function(){
+			if(!responsiveVoice.isPlaying()){
+				takeShotAndRestore(); 
+				setTimeout(function(){
+					clearInterval(sId1);
+					showDialogue("Can you turn to your left?")
+					responsiveVoice.speak("Can you turn to your left?", "UK English Male"); 
+					var sId2 = setInterval(function(){
+						if(!responsiveVoice.isPlaying()){
+							takeShotAndRestore(); 
+							setTimeout(function(){
+								clearInterval(sId2);
+								showDialogue("That's great. Thanks. Can you turn to your right?")
+								responsiveVoice.speak("That's great. Thanks. Can you turn to your right?", "UK English Male"); 
+								
+								var sId3 = setInterval(function(){
+									if(!responsiveVoice.isPlaying()){
+										showDialogue("Processing...")
+										takeShotAndRestore(); 
+										clearInterval(sId3);
+										setTimeout(function(){
+											adduser(); 
 											setTimeout(function(){
-												clearInterval(sId3);
-												adduser(); 
-												showDialogue("We have set up your face data profile. Thank you!")
-												responsiveVoice.speak("We have set up your face data profile. Thank you!");
-												setTimeout(function(){
-													voiceBusyFlag = 0;
-													voiceFinishCallBack();
-												}, 4000);
-											}, 1050);
-										} 
-									},1200);
-								}, 1050);
-							} 
-						},1200); 
-						
-					}, 1050);
-				} 
-			},1200);
-			/* responsiveVoice.speak(obj.display+", would you please turn your head to the left?"); 
-			var sId2 = setInterval(function(){
-				if(!responsiveVoice.isPlaying()){
-					takeShotAndRestore(); 
-					setTimeout(function(){
-						clearInterval(sId2);
-					}, 1050);
-				} 
-			},1200);
-			responsiveVoice.speak(obj.display+", would you please turn your head to the right?"); 
-			var sId3 = setInterval(function(){
-				if(!responsiveVoice.isPlaying()){
-					takeShotAndRestore(); 
-					setTimeout(function(){
-						clearInterval(sId3);
-					}, 1050);
-				} 
-			},1200); */
-		} else {
-			voiceBusyFlag = 0;
-			voiceFinishCallBack();
-		}
+												showDialogue("Perfect. Thank you.")
+												responsiveVoice.speak("Perfect. Thank you.", "UK English Male");
+												reset();
+											}, 20000);
+										}, 1050);
+									} 
+								},1200);
+							}, 1050);
+						} 
+					},1200); 
+					
+				}, 1050);
+			} 
+		},1200);
+		/* responsiveVoice.speak(obj.display+", would you please turn your head to the left?"); 
+		var sId2 = setInterval(function(){
+			if(!responsiveVoice.isPlaying()){
+				takeShotAndRestore(); 
+				setTimeout(function(){
+					clearInterval(sId2);
+				}, 1050);
+			} 
+		},1200);
+		responsiveVoice.speak(obj.display+", would you please turn your head to the right?"); 
+		var sId3 = setInterval(function(){
+			if(!responsiveVoice.isPlaying()){
+				takeShotAndRestore(); 
+				setTimeout(function(){
+					clearInterval(sId3);
+				}, 1050);
+			} 
+		},1200); */
 		return;
 	} 
 
 }
+
+var client;
+var request;
 
 function getMode() {
     return Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase;
 }
 
 var mode = getMode();
-client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
+microphoneClient = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createMicrophoneClient(
                 mode,
                 "en-us",
                 'e0ee7225240c464ab33a155b8267a703');
 
-function take_voice_sample() {
-	 
-    client.startMicAndRecognition();
-    setTimeout(function () {
-        client.endMicAndRecognition();
-    }, 3000);
+
+function take_voice_sample(useMic) {
+	
+	if(useMic){
+		microphoneClient.startMicAndRecognition();
+	    setTimeout(function () {
+	        client.endMicAndRecognition();
+	    }, 3000);
+	} else {
+		client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClient(
+			      mode,
+			      "en-us",
+			      'e0ee7225240c464ab33a155b8267a703');
+			request = new XMLHttpRequest();
+		
+	    request.open(
+	        'GET',
+	        (mode == Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionMode.shortPhrase) ? "audioFile?fileName=aa" : "batman.wav",
+	        true);
+	    request.responseType = 'arraybuffer';
+	    request.onload = function () {
+	        if (request.status !== 200) {
+	            setText("unable to receive audio file");
+	        } else {
+	            client.sendAudio(request.response, request.response.length);
+	        }
+	    };
+
+	    request.send();
+	}
 
     client.onPartialResponseReceived = function (data) {
         setText(data);
@@ -171,6 +215,5 @@ function take_voice_sample() {
 }
 
 function setText(text) {
-	voiceResult=text;
-	evaluateVoiceResult();
+	evaluateVoiceResult(text);
 }
