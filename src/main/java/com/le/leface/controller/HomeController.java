@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.le.leface.models.User;
 import com.le.leface.service.FaceDetectService;
+import com.le.leface.service.SpeechRecognitionService;
 import com.le.leface.service.UserService;
 import com.le.leface.service.WatcherStateChangeHandler;
 
@@ -46,6 +47,9 @@ public class HomeController {
 	FaceDetectService faceDetectService;
 	
 	@Autowired
+	SpeechRecognitionService speechRecognitionService;
+	
+	@Autowired
     private WatcherStateChangeHandler watcherStateChangeHandler;
 	
 	@RequestMapping(value = "/")
@@ -61,6 +65,14 @@ public class HomeController {
 	public String audioTest(Model model) {
 		return "audioTest";
 	}
+
+	@RequestMapping(value = "/speechRecognition")
+	public String speechRecognition(Model model, String wavFilePath) {
+		String text = speechRecognitionService.speechFileToText(wavFilePath);
+		model.addAttribute("speechText", text);
+		return "audioTest";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/audioFile", method = RequestMethod.GET)
 	public void audioFileGet(HttpServletRequest request, HttpServletResponse response,

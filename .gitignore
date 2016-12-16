@@ -11,6 +11,9 @@ tmp/
 *.swp
 *~.nib
 *.jpg
+*.json
+*.flac
+*.wav
 local.properties
 .settings/
 .loadpath
