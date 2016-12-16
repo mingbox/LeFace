@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.le.leface.models.User;
 import com.le.leface.service.FaceDetectService;
 import com.le.leface.service.SpeechRecognitionService;
+import com.le.leface.service.SpotifyService;
 import com.le.leface.service.UserService;
 import com.le.leface.service.WatcherStateChangeHandler;
 
@@ -48,6 +46,9 @@ public class HomeController {
 	
 	@Autowired
 	SpeechRecognitionService speechRecognitionService;
+	
+	@Autowired
+	SpotifyService spotifyService;
 	
 	@Autowired
     private WatcherStateChangeHandler watcherStateChangeHandler;
@@ -73,6 +74,13 @@ public class HomeController {
 		return "audioTest";
 	}
 	
+	@RequestMapping(value = "/spotifySearchTrack")
+	public String spotifySearchTrack(Model model, String keyword) {
+		String trackId = spotifyService.searchFirstTrackId(keyword);
+		model.addAttribute("spotifyTrackId", trackId);
+		return "spotifySearchTrack";
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/audioFile", method = RequestMethod.GET)
 	public void audioFileGet(HttpServletRequest request, HttpServletResponse response,
