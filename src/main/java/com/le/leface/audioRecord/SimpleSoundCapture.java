@@ -384,7 +384,7 @@ public class SimpleSoundCapture extends JPanel implements ActionListener {
 			this.fileName = "aa";
 			capture.start();
 			try {
-				TimeUnit.SECONDS.sleep(3);
+				TimeUnit.SECONDS.sleep(2);
 			} catch (InterruptedException e) {
 
 			}

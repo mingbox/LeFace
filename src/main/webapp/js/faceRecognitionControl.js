@@ -1,5 +1,5 @@
 function greeting(ppl){
-	var textToShow = "Hi "+name+", let me know if you need anything.";
+	var textToShow = "Hi "+ppl+", let me know if you need anything.";
 	showDialogue(textToShow);
 	bobSpeak(textToShow);
 }
@@ -16,26 +16,20 @@ function dealNewUser(){
 		setTimeout(function(){
 			showDialogue(textToShow);
 			bobSpeak(textToShow);
-			setTimeout(function(){
-				status = 'newUser';
+			setTimeout(function(){//alert("||||||||");
+				expectSpeechResponse = 1;
+				speechLength = 3500;
+				take_voice_sample(true);
+				speechLoopInterval = 3800;
 				speechLoop = setInterval(function(){
-					if(!responsiveVoice.isPlaying()){
+					if(!responsiveVoice.isPlaying() && voiceBusyFlag==0){
 						take_voice_sample(true);
 					} 
-				},3300);
-			}, 4000);
-		}, 2000);
-	}, 2000);
+				},speechLoopInterval);
+			}, 1100);
+		}, 2500);
+	}, 2500);
 }
-
-//function voiceFinishCallBack(){
-//	faceBusyFlag = 0;
-//	status = 'standBy';
-//	$('#dialogBox').hide();
-//	$('#dialog').html( "" );
-//	stopVideo();
-//	//clearInterval(speechLoop);
-//}
 
 function faceOperation(){
 	take_snapshot();
@@ -54,7 +48,7 @@ function evaluateFaceResult(){
 	
 	for (var i = 0; i < arrayLength; i++) {
 	    var ppl = newppl[i];
-	    if (oldppl.indexOf(ppl) == -1 && ppl != "?") {
+	    if (oldppl.indexOf(ppl) == -1 && ppl != "?" && ppl != "") {
 	    	if (status == "standBy"){
 	    		greeting(ppl);
 	    	}
@@ -64,9 +58,8 @@ function evaluateFaceResult(){
 	
 	if (newppl == '?') {
 		if (status == "standBy"){
-	    	faceBusyFlag = 1;
-	    	voiceBusyFlag = 1;
-	    	status = 'newUser';
+			faceBusyFlag = 1;
+			status = 'newUser';
 	    	dealNewUser();
 		}
     	return;

@@ -28,9 +28,11 @@
 		#player { position: fixed; bottom: 0; right: 0; display: none;}
 		#dialogBox { background: rgba(0, 0, 0, .6); position: fixed; bottom: 0; height: 50px; width: 100%; display: none;}
 		#dialog {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
+		#speechResult {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
 	</style>
 </head>
 <body id="top">
+	<div id="speechResult"></div>
 	<div id="my_camera"></div>
 	<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
 		<div class="row uniform 50%">
@@ -64,6 +66,7 @@
 		var oldFaceResult="";
 		var faceResult="";
 		var videoIdToPlay=0;
+		var expectSpeechResponse=0;
 		
 		var videos = ["OK Go – The One Moment", 
 			"Plane with 48 aboard crashes in Pakistan",
@@ -83,23 +86,28 @@
 				"ubZrAmRxy_M"];
 
 		var speechLoop;
+		var defaultSpeechLoopInterval = 3400;
+		var speechLoopInterval = defaultSpeechLoopInterval;
+		var defaultSpeechLength = 3200;
+		var speechLength = defaultSpeechLength;
         function startSpeechLoop() {
-			window.setInterval(function(){
-				if(!responsiveVoice.isPlaying() && voiceBusyFlag == 0) {
+			window.setInterval(function(){//still wait first and then execute
+				if(!responsiveVoice.isPlaying() && voiceBusyFlag == 0 && status == "standBy") {
 					voiceOperation();
 					//take_sample();
 				}
-			}, 3300);	
+			}, speechLoopInterval);	
 		}  
         startSpeechLoop();
         
+        var faceLoopInterval = 4000;
         function startFaceLoop() {
 			window.setInterval(function(){
 				if(faceBusyFlag == 0) {
 					faceOperation();
 					//take_snapshot();
 				}
-			}, 4000);	
+			}, faceLoopInterval);	
 		}
 		startFaceLoop(); 
 		
@@ -109,7 +117,14 @@
 			status = 'standBy';
 			$('#dialogBox').hide();
 			$('#dialog').html( "" );
+			cancelPlayerFullScreen()
 			stopVideo();
+			speechLoopInterval = defaultSpeechLoopInterval;
+			speechLength = defaultSpeechLength;
+			expectSpeechResponse = 0;
+			clearInterval(speechLoop); 
+			var textToShow = "Let me know if you need anything.";
+			showDialogue(textToShow);
 		}
 		
 	</script>
