@@ -1,6 +1,6 @@
 
 function voiceOperation(){
-	take_voice_sample(false);
+	take_voice_sample(true);
 }
 
 function suggestVideo(){
@@ -9,14 +9,17 @@ function suggestVideo(){
 	playVideo(videoMap[videoIdToPlay]);
 	showDialogue(textToShow);
 	bobSpeak(textToShow);
-//	setTimeout(function(){
-		
-//		speechLoop = setInterval(function(){
-//			if(!responsiveVoice.isPlaying() && voiceBusyFlag==0){
-//				take_voice_sample();
-//			} 
-//		},5000);
-//	}, 2000);
+	var noSpeakCheck=setInterval(function(){
+		if (!responsiveVoice.isPlaying()){//alert("||||||||");
+			clearInterval(noSpeakCheck); 
+			expectSpeechResponse = 1;
+			speechLoop = setInterval(function(){
+				if(voiceBusyFlag==0){
+					take_voice_sample(true);
+				} 
+			},speechLoopInterval);
+		}
+	}, 100);
 }
 
 function evaluateVoiceResult(voiceResult){
@@ -25,6 +28,7 @@ function evaluateVoiceResult(voiceResult){
 	var textToShow = "";
 	if(voiceResult == -1) {
 		//error handling 
+		if (expectSpeechResponse == 0) return;
 		if (status == "suggestion" || status == "newUser"){
 			setTimeout(function(){
 				textToShow="Sorry, could you please say that again?";
@@ -40,7 +44,8 @@ function evaluateVoiceResult(voiceResult){
 	if (typeof obj == 'undefined' || !('display' in obj)) return;
 	
 	if (status == "standBy"){
-		if (obj.display.toLowerCase().includes("video")){
+		if (obj.display.toLowerCase().includes("video") ||
+			obj.display.toLowerCase().includes("show")){
 			voiceBusyFlag = 1;
 			status = 'suggestion';
 			suggestVideo();
@@ -63,11 +68,15 @@ function evaluateVoiceResult(voiceResult){
 			$('#dialog').html( "" );
 			status = 'playing';
 			voiceBusyFlag = 0;
-		} else if (obj.display.toLowerCase().includes("no")) {
+		} else if (obj.display.toLowerCase().includes("no") ||
+				   obj.display.toLowerCase().includes("null")) {
 			voiceBusyFlag = 1;
 			stopVideo();
-			suggestVideo();
+			clearInterval(speechLoop);
 			voiceBusyFlag = 0;
+			setTimeout(function(){
+				suggestVideo();
+			}, 2500);
 		} else if (obj.display.toLowerCase().includes("dismiss")) {
 			reset();
 		}
@@ -76,14 +85,20 @@ function evaluateVoiceResult(voiceResult){
 	
 	if (status == "playing"){
 		if (obj.display.toLowerCase().includes("no") ||
-			obj.display.toLowerCase().includes("stop") ){
+			obj.display.toLowerCase().includes("stop") ||
+			obj.display.toLowerCase().includes("null")){
 			voiceBusyFlag = 1;
 			status = 'suggestion';
 			stopVideo();
+			clearInterval(speechLoop);
 			cancelPlayerFullScreen();
-			suggestVideo();
 			voiceBusyFlag = 0;
-		} 
+			setTimeout(function(){
+				suggestVideo();
+			}, 2500);
+		} else if (obj.display.toLowerCase().includes("dismiss")) {
+			reset();
+		}
 		return;
 	}
 	
@@ -117,7 +132,9 @@ function evaluateVoiceResult(voiceResult){
 											setTimeout(function(){
 												showDialogue("Perfect. Thank you.")
 												responsiveVoice.speak("Perfect. Thank you.", "UK English Male");
-												reset();
+												setTimeout(function(){
+													reset();
+												}, 2000);
 											}, 20000);
 										}, 1050);
 									} 
@@ -171,8 +188,24 @@ function take_voice_sample(useMic) {
 	if(useMic){
 		microphoneClient.startMicAndRecognition();
 	    setTimeout(function () {
-	        client.endMicAndRecognition();
-	    }, 3000);
+	    	microphoneClient.endMicAndRecognition();
+	    }, speechLength);
+	    
+	    microphoneClient.onPartialResponseReceived = function (data) {
+	        setText(data);
+	    }
+
+	    microphoneClient.onFinalResponseReceived = function (data) {
+	        setText(JSON.stringify(data));
+	    }
+
+	    microphoneClient.onIntentReceived = function (data) {
+	        setText(data);
+	    };
+	    
+	    microphoneClient.onError = function (data) {
+	        setText(data);
+	    };
 	} else {
 		client = Microsoft.CognitiveServices.SpeechRecognition.SpeechRecognitionServiceFactory.createDataClient(
 			      mode,
@@ -194,26 +227,26 @@ function take_voice_sample(useMic) {
 	    };
 
 	    request.send();
+	    
+	    client.onPartialResponseReceived = function (data) {
+	        setText(data);
+	    }
+
+	    client.onFinalResponseReceived = function (data) {
+	        setText(JSON.stringify(data));
+	    }
+
+	    client.onIntentReceived = function (data) {
+	        setText(data);
+	    };
+	    
+	    client.onError = function (data) {
+	        setText(data);
+	    };
 	}
-
-    client.onPartialResponseReceived = function (data) {
-        setText(data);
-    }
-
-    client.onFinalResponseReceived = function (data) {
-        setText(JSON.stringify(data));
-    }
-
-    client.onIntentReceived = function (data) {
-        setText(data);
-    };
-    
-    client.onError = function (data) {
-        setText(data);
-    };
-
 }
 
 function setText(text) {
 	evaluateVoiceResult(text);
+	$('#speechResult').html( text );
 }
