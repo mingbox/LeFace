@@ -3,6 +3,26 @@ function voiceOperation(){
 	take_voice_sample(true);
 }
 
+function searchVideo(){
+	var textToShow = "Please say the key word of the video.";
+	showDialogue(textToShow);
+	bobSpeak(textToShow);
+	var noSpeakCheck=setInterval(function(){
+		if (!responsiveVoice.isPlaying()){//alert("|||");
+			clearInterval(noSpeakCheck); 
+			expectSpeechResponse = 1;
+//			var speechLoopInterval = 3300;
+//			var speechLength = 3050;
+			take_voice_sample(true);
+			speechLoop = setInterval(function(){
+				if(status == "search" || status == "search playing"){
+					take_voice_sample(true);
+				} 
+			},speechLoopInterval);
+		}
+	}, 100);
+}
+
 function suggestVideo(){
 	videoIdToPlay = Math.floor((Math.random() * 7));
 	var textToShow = "Want to watch "+ videos[videoIdToPlay] +"?";
@@ -13,8 +33,9 @@ function suggestVideo(){
 		if (!responsiveVoice.isPlaying()){//alert("||||||||");
 			clearInterval(noSpeakCheck); 
 			expectSpeechResponse = 1;
-			speechLoop = setInterval(function(){
-				if(voiceBusyFlag==0){
+			take_voice_sample(true);//set interval will wait, need to execute once immediately, need to deal with one extra outside loop
+			speechLoop = setInterval(function(){//alert("||||||||");
+				if(status == "suggestion" || status == "playing"){
 					take_voice_sample(true);
 				} 
 			},speechLoopInterval);
@@ -24,18 +45,17 @@ function suggestVideo(){
 
 function evaluateVoiceResult(voiceResult){
 	//alert("voice:"+voiceResult);
-	if(typeof voiceResult == 'undefined' || voiceResult == '' || voiceBusyFlag == 1) return;
+	if (typeof voiceResult == 'undefined' || voiceResult == '' || voiceBusyFlag == 1) return;
 	var textToShow = "";
-	if(voiceResult == -1) {
+	if(voiceResult == -1 && expectSpeechResponse == 1) {
 		//error handling 
-		if (expectSpeechResponse == 0) return;
 		if (status == "suggestion" || status == "newUser"){
-			setTimeout(function(){
-				textToShow="Sorry, could you please say that again?";
-				showDialogue(textToShow);
-			}, 2000);
-			//responsiveVoice.speak(textToShow);
-		}
+			textToShow="Sorry, could you please say that again?";
+			showDialogue(textToShow);
+		} else if (status == "search"){
+			textToShow="Please say the key word of the video.";
+			showDialogue(textToShow);
+		} 
 		return;
 	} 
 	
@@ -44,69 +64,145 @@ function evaluateVoiceResult(voiceResult){
 	if (typeof obj == 'undefined' || !('display' in obj)) return;
 	
 	if (status == "standBy"){
-		if (obj.display.toLowerCase().includes("video") ||
-			obj.display.toLowerCase().includes("show")){
+		if (obj.display.toLowerCase().includes("suggest") ||
+			obj.display.toLowerCase().includes("suggest video")) {
+			//status change already block the new loop, but still modify voicebusyflag in order to prevent duplicate execution
 			voiceBusyFlag = 1;
 			status = 'suggestion';
 			suggestVideo();
 			voiceBusyFlag = 0;
 			return;
+		} else if (obj.display.toLowerCase().includes("play") ||
+				   obj.display.toLowerCase().includes("play video")) {
+			voiceBusyFlag = 1;
+			status = 'search';
+			setTimeout(function(){//this is an open question and that's why we need to wait a bit
+				searchVideo();
+				voiceBusyFlag = 0;
+			}, speechLoopInterval/2);
+			return;
 		}
 	}
 	
-	if (status == "suggestion"){
+	if (status == "search" && expectSpeechResponse == 1){
+		voiceBusyFlag = 1;
+		$('#youtubeSearchQuery').val( obj.display );
+		if (obj.display.toLowerCase().includes("dismiss") ||
+			obj.display.toLowerCase().includes("stop")) {
+			//alert("|||||||");
+			reset();
+		} else {
+			var request = search();
+			  request.execute(function(response) {
+			    var str = JSON.stringify(response.result);
+			    var searchResult = JSON.parse(str);
+				var videoId = searchResult.items[0].id.videoId; //alert(videoId);
+				if (typeof videoId == 'undefined' || videoId == "") {
+					textToShow="Please say the key word of the video.";
+					showDialogue(textToShow);
+					voiceBusyFlag = 0;
+				} else {
+					playVideo(videoId);
+					setPlayerFullScreen();
+					$('#dialogBox').hide();
+					$('#dialog').html( "" );
+					status = 'search playing';
+					setTimeout(function(){//wait a bit to prevent cycles before status change
+						voiceBusyFlag = 0;
+					}, speechLoopInterval);
+				}
+			  });
+		}
+		return;
+	}
+	
+	if (status == "suggestion" && expectSpeechResponse == 1){
 		if (obj.display.toLowerCase().includes("yes") ||
 			obj.display.toLowerCase().includes("yea") ||
 			obj.display.toLowerCase().includes("ok") ||
 			obj.display.toLowerCase().includes("okay") ||
 			obj.display.toLowerCase().includes("sure") ||
 			obj.display.toLowerCase().includes("alright") ||
+			obj.display.toLowerCase().includes("play") ||
 			obj.display.toLowerCase().includes("why not")){
 			voiceBusyFlag = 1;
 			setPlayerFullScreen();
 			$('#dialogBox').hide();
 			$('#dialog').html( "" );
 			status = 'playing';
-			voiceBusyFlag = 0;
+			setTimeout(function(){//wait a bit to prevent cycles before status change
+				voiceBusyFlag = 0;
+			}, defaultSpeechLoopInterval);
 		} else if (obj.display.toLowerCase().includes("no") ||
+				   obj.display.toLowerCase().includes("no thanks") ||
+				   obj.display.toLowerCase().includes("stup") ||
+				   obj.display.toLowerCase().includes("stop") ||
+				   obj.display.toLowerCase().includes("not now") ||
 				   obj.display.toLowerCase().includes("null")) {
 			voiceBusyFlag = 1;
 			stopVideo();
 			clearInterval(speechLoop);
-			voiceBusyFlag = 0;
-			setTimeout(function(){
+			expectSpeechResponse = 0;//prevent previous cycle causing 'say that again'
+			setTimeout(function(){//wait a bit to prevent cycles before status change
+				voiceBusyFlag = 0;
 				suggestVideo();
-			}, 2500);
-		} else if (obj.display.toLowerCase().includes("dismiss")) {
+			}, speechLoopInterval);
+		} else if (obj.display.toLowerCase().includes("dismiss") ||
+				   obj.display.toLowerCase().includes("stop")) {
 			reset();
 		}
 		return;
 	}
 	
-	if (status == "playing"){
-		if (obj.display.toLowerCase().includes("no") ||
-			obj.display.toLowerCase().includes("stop") ||
-			obj.display.toLowerCase().includes("null")){
+	if (status == "search playing" && expectSpeechResponse == 1){
+		if (obj.display.toLowerCase().includes("dismiss") ||
+			obj.display.toLowerCase().includes("stop")) {
+			//alert("|||||||");
+			reset();
+		} else if (obj.display.toLowerCase().includes("next") ||
+				   obj.display.toLowerCase().includes("skip")) {
 			voiceBusyFlag = 1;
-			status = 'suggestion';
 			stopVideo();
 			clearInterval(speechLoop);
 			cancelPlayerFullScreen();
-			voiceBusyFlag = 0;
-			setTimeout(function(){
+			expectSpeechResponse = 0;//prevent previous cycle causing 'say that again'
+			setTimeout(function(){//wait a bit to prevent cycles before status change
+				voiceBusyFlag = 0;
+				status = 'search';
+				searchVideo();
+			}, speechLoopInterval/2);
+		}
+		return;
+	}
+	
+	if (status == "playing" && expectSpeechResponse == 1){
+		if (obj.display.toLowerCase().includes("next") ||
+			obj.display.toLowerCase().includes("skip") ||
+			obj.display.toLowerCase().includes("no") ||
+			obj.display.toLowerCase().includes("null")) {
+			voiceBusyFlag = 1;
+			stopVideo();
+			clearInterval(speechLoop);
+			cancelPlayerFullScreen();
+			expectSpeechResponse = 0;//prevent previous cycle causing 'say that again'
+			setTimeout(function(){//wait a bit to prevent cycles before status change
+				voiceBusyFlag = 0;
+				status = 'suggestion';
 				suggestVideo();
-			}, 2500);
-		} else if (obj.display.toLowerCase().includes("dismiss")) {
+			}, speechLoopInterval);
+		} else if (obj.display.toLowerCase().includes("dismiss") ||
+				   obj.display.toLowerCase().includes("stop")) {
 			reset();
 		}
 		return;
 	}
 	
-	if (status == "newUser"){
+	if (status == "newUser" && expectSpeechResponse == 1) {
 		voiceBusyFlag = 1;
-		$('#name').val(obj.display);
-		showDialogue(obj.display+", can you do me a favor?")
-		responsiveVoice.speak(obj.display+", can you do me a favor?", "UK English Male"); 
+		var userName = obj.display.replace(/\./g,"");
+		$('#name').val(userName);
+		showDialogue(userName+", can you do me a favor?")
+		responsiveVoice.speak(userName+", can you do me a favor?", "UK English Male"); 
 		var sId1 = setInterval(function(){
 			if(!responsiveVoice.isPlaying()){
 				takeShotAndRestore(); 
@@ -135,7 +231,7 @@ function evaluateVoiceResult(voiceResult){
 												setTimeout(function(){
 													reset();
 												}, 2000);
-											}, 20000);
+											}, 22000);
 										}, 1050);
 									} 
 								},1200);
@@ -247,6 +343,13 @@ function take_voice_sample(useMic) {
 }
 
 function setText(text) {
+	if (text == -1){
+		$('#speechResult').html( text );
+	} else {
+		var array = JSON.parse(text);
+		var obj = array[0];
+		$('#speechResult').html( obj.display );
+		
+	}
 	evaluateVoiceResult(text);
-	$('#speechResult').html( text );
 }
