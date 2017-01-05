@@ -187,7 +187,7 @@ public class HomeController {
 	@RequestMapping(value = "/getVideoAnnotation")
 	public String getVideoAnnotation(Model model, String videoId, int timestamp) {
 		List<VideoAnnotation> listVI = videoAnnotationService.getVideoInfoByTimestamp(videoId, timestamp);
-		model.addAttribute("videoinfo", listVI);
+		model.addAttribute("videoannotation", listVI);
 		return "getVideoAnnotation";
 	}
 	
