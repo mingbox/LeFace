@@ -56,9 +56,9 @@ function evaluateFaceResult(){
 	    } 
 	}
 	
-	if (newppl == '?') {
+	if (newppl.includes('?')) {
 		if (status == "standBy"){
-			faceBusyFlag = 1;
+			faceBusyFlag = 1;//stop process face recognition until new user set up finished, may need to remove in the future in case the user walks away
 			status = 'newUser';
 	    	dealNewUser();
 		}

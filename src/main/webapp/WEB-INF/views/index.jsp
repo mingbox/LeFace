@@ -29,11 +29,14 @@
 		#dialogBox { background: rgba(0, 0, 0, .6); position: fixed; bottom: 0; height: 50px; width: 100%; display: none;}
 		#dialog {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
 		#speechResult {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
+		#login-link { display: none; }
 	</style>
 </head>
 <body id="top">
 	<div id="speechResult"></div>
 	<div id="my_camera"></div>
+	<a href="#" id="login-link" >authorize link</a><!-- for google api oauth -->
+	<input id="youtubeSearchQuery" value='' type="hidden"/><!-- <button id="search-button" onclick="search()">Search</button> -->
 	<form name="adduserform" id="adduserform" action="<c:url value="/detect" />" method="post">
 		<div class="row uniform 50%">
 			<input type="hidden" name="img" id="img" value="" />
@@ -46,23 +49,27 @@
 		<p id="dialog"></p>
 	</div>
 
-	<script src="<c:url value='/js/jquery.min.js' />"></script>
+	<script src="<c:url value='/js/vendor/jquery.min.js' />"></script>
 	
+	<script type="text/javascript" src="<c:url value='/js/vendor/youtubeDataAPI/auth.js' />"></script>	
+	<script type="text/javascript" src="<c:url value='/js/vendor/youtubeDataAPI/search.js' />"></script>	
+	<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 	<script type="text/javascript" src="<c:url value='/js/youtubePlayer.js' />"></script>
-	<script type="text/javascript" src="http://code.responsivevoice.org/responsivevoice.js"></script>	
+	
+	<script type="text/javascript" src="<c:url value='/js/vendor/responsivevoice.js' />"></script>	
 	<script type="text/javascript" src="<c:url value='/js/miscUtil.js' />"></script>	
 	
-	<script type="text/javascript" src="<c:url value='/js/webcam.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/js/vendor/webcam.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/js/faceRecognitionControl.js' />"></script>
 	
-	<script type="text/javascript" src="<c:url value='/js/speech.1.0.0.js' />" ></script>
+	<script type="text/javascript" src="<c:url value='/js/vendor/speech.1.0.0.js' />" ></script>
 	<script type="text/javascript" src="<c:url value='/js/voiceRecognitionControl.js' />"></script>
 	
 	<script language="JavaScript">
 		var audioContext = new AudioContext();//deal with the max context limit
 		var faceBusyFlag = 0;
 		var voiceBusyFlag = 0;
-		var status = "standBy";//newUser; suggestion; playing;
+		var status = "standBy";//newUser; suggestion; playing; search; search playing
 		var oldFaceResult="";
 		var faceResult="";
 		var videoIdToPlay=0;
@@ -76,6 +83,7 @@
 			"Transformers: The Last Knight - Teaser Trailer",
 			"President Obama on Bipartisan Politics for 'A House Divided'", 
 			"Lin-Manuel Miranda, Opetaia Foa'i - We Know The Way (From 'Moana')"];
+		
 		var videoMap = ["QvW61K2s0tA", 
 				"a7dCcsgsMes",
 				//"VDinoNRC49c",
@@ -86,9 +94,9 @@
 				"ubZrAmRxy_M"];
 
 		var speechLoop;
-		var defaultSpeechLoopInterval = 3400;
+		var defaultSpeechLoopInterval = 2500;
 		var speechLoopInterval = defaultSpeechLoopInterval;
-		var defaultSpeechLength = 3200;
+		var defaultSpeechLength = 2200;
 		var speechLength = defaultSpeechLength;
         function startSpeechLoop() {
 			window.setInterval(function(){//still wait first and then execute
@@ -111,7 +119,7 @@
 		}
 		startFaceLoop(); 
 		
-		function reset(){
+		function reset(){//may need to think about the previous state one legacy cycle stuff
 			faceBusyFlag = 0;
 			voiceBusyFlag = 0;
 			status = 'standBy';
