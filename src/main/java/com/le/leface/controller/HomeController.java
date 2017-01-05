@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.le.leface.models.User;
+import com.le.leface.models.VideoAnnotation;
 import com.le.leface.service.FaceDetectService;
 import com.le.leface.service.SpeechRecognitionService;
 import com.le.leface.service.SpotifyService;
 import com.le.leface.service.UserService;
+import com.le.leface.service.VideoAnnotationService;
 import com.le.leface.service.WatcherStateChangeHandler;
 
 
@@ -40,6 +42,9 @@ public class HomeController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	VideoAnnotationService videoAnnotationService;
 	
 	@Autowired
 	FaceDetectService faceDetectService;
@@ -178,4 +183,12 @@ public class HomeController {
 		faceDetectService.removeAllPersons();
 		return "redirect:/admin";
 	}
+
+	@RequestMapping(value = "/getVideoAnnotation")
+	public String getVideoAnnotation(Model model, String videoId, int timestamp) {
+		List<VideoAnnotation> listVI = videoAnnotationService.getVideoInfoByTimestamp(videoId, timestamp);
+		model.addAttribute("videoinfo", listVI);
+		return "getVideoAnnotation";
+	}
+	
 }
