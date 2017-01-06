@@ -53,6 +53,60 @@ public class VideoAnnotationDaoImplMockup extends AbstractDao<Long, VideoAnnotat
 
 		addToDB(id.toString(), "lKLBmF-B0I4", "Attraction", "Montpellier France", new float[] { 0, 0, 100, 100 },
 				193000, 208000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Felicity Jones", new float[] { 40, 0, 20, 100 },
+				6000, 7000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Forest Whitaker", new float[] { 40, 0, 50, 100 },
+				7000, 8000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Felicity Jones", new float[] { 40, 0, 20, 100 },
+				18000, 40000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Diego Luna", new float[] { 40, 0, 20, 100 },
+				20000, 42000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Wen Jiang", new float[] { 30, 0, 40, 100 },
+				47000, 50000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Donnie Yen", new float[] { 50, 10, 20, 90 },
+				53000, 59000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Felicity Jones", new float[] { 50, 20, 20, 80 },
+				60000, 64000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Alan Tudyk", new float[] { 0, 0, 50, 100 },
+				60000, 64000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Toy", "K-2SO", new float[] { 0, 0, 50, 100 },
+				60000, 64000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Toy", "Death Star", new float[] { 10, 0, 40, 90 },
+				67000, 70000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Toy", "X-Wing", new float[] { 50, 0, 30, 70 },
+				90000, 93000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Actor", "Felicity Jones", new float[] { 40, 0, 20, 100 },
+				97000, 110000);
+		id++;
+
+		addToDB(id.toString(), "frdj1zb9sMY", "Toy", "Darth Vader", new float[] { 40, 0, 30, 100 },
+				1160000, 118000);
+		id++;
+
 	}
 	
 	static void addToDB(String id, String videoId, String key, String value, 
