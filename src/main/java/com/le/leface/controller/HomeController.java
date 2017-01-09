@@ -71,6 +71,11 @@ public class HomeController {
 	public String audioTest(Model model) {
 		return "audioTest";
 	}
+	
+	@RequestMapping(value = "/appMockup")
+	public String appMockup(Model model) {
+		return "appMockup";
+	}
 
 	@RequestMapping(value = "/speechRecognition")
 	public String speechRecognition(Model model, String wavFilePath) {
@@ -80,10 +85,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/spotifySearchTrack")
-	public String spotifySearchTrack(Model model, String keyword) {
+	@ResponseBody
+	public String spotifySearchTrack(Model model, @RequestParam(value = "keyword", required = true) String keyword) {
 		String trackId = spotifyService.searchFirstTrackId(keyword);
-		model.addAttribute("spotifyTrackId", trackId);
-		return "spotifySearchTrack";
+		return trackId;
 	}
 
 	@ResponseBody

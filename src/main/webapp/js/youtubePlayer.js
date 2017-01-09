@@ -14,6 +14,8 @@
 		  modestbranding: 1,
 		  controls: 0,
 		  rel: 0,
+		  iv_load_policy: 3,
+		  showinfo: 0,
 		  events: {
 		    'onReady': onPlayerReady,
 		    'onStateChange': onPlayerStateChange
