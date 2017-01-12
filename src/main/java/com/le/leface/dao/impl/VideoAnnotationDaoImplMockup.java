@@ -107,6 +107,186 @@ public class VideoAnnotationDaoImplMockup extends AbstractDao<Long, VideoAnnotat
 				1160000, 118000);
 		id++;
 
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 0, 280000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Sponsor", "Patagonia", new float[] { 0, 0, 100, 100 }, 0, 280000, 
+				"http://www.patagonia.com/home/", 
+				"http://www.patagonia.com/static/on/demandware.static/Sites-patagonia-us-Site/-/default/dwceed69ad/images/logo.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Song", "Portugal. The Man - Plastic Soldiers﻿", new float[] { 0, 0, 100, 100 }, 0, 280000, 
+				"https://www.amazon.com/Plastic-Soldiers/dp/B00CW54Z5M", 
+				"https://images-na.ssl-images-amazon.com/images/I/51XQywmFasL._SS500_PJStripe-Robin-Large,TopLeft,0,0.jpg");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Location", "Japan﻿", new float[] { 0, 0, 100, 100 }, 7000, 91000, 
+				"https://www.expedia.com/", 
+				"https://www.expedia.com/_dms/header/logo.svg?locale=en_US&siteid=1");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Location", "British Columbia, Canada", new float[] { 0, 0, 100, 100 }, 91000, 175000, 
+				"https://www.expedia.com/", 
+				"https://www.expedia.com/_dms/header/logo.svg?locale=en_US&siteid=1");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Location", "Switzerland", new float[] { 0, 0, 100, 100 }, 175000, 259000, 
+				"https://www.expedia.com/", 
+				"https://www.expedia.com/_dms/header/logo.svg?locale=en_US&siteid=1");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "Patagonia Jacket", new float[] { 0, 0, 100, 100 }, 31000, 257000, 
+				"http://www.patagonia.com/product/mens-refugitive-jacket/83615.html?dwvar_83615_color=TRUT&cgid=sport-skiing-snowboarding-mens-jackets-vests#tile-1=&start=1&sz=24", 
+				"http://www.patagonia.com/dis/dw/image/v2/ABBM_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw9c374d79/images/hi-res/83615_BSRB.jpg?sw=750&sh=750&sm=fit&sfrm=png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "Patagonia Backpack", new float[] { 0, 0, 100, 100 }, 40000, 45000, 
+				"http://www.patagonia.com/shop/luggage-backpacks", 
+				"http://www.patagonia.com/dis/dw/image/v2/ABBM_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw68bc3af7/images/hi-res/48190_NBEB.jpg?sw=500&sh=500&sfrm=png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "Patagonia Backpack", new float[] { 0, 0, 100, 100 }, 52000, 58000, 
+				"http://www.patagonia.com/shop/luggage-backpacks", 
+				"http://www.patagonia.com/dis/dw/image/v2/ABBM_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw68bc3af7/images/hi-res/48190_NBEB.jpg?sw=500&sh=500&sfrm=png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "ABS Backpack", new float[] { 0, 0, 100, 100 }, 60000, 63000, 
+				"https://www.abs-airbag.com/us/abs-backpack.html", 
+				"https://www.abs-airbag.com/abs-media/produkte_2014_2015/340x366/VARIO/Base_Unit/ABS_PRODUCTS_2014_WEB_340x366_Baseunit_Vario8_Blackorange_faded.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "Patagonia Backpack", new float[] { 0, 0, 100, 100 }, 63000, 70000, 
+				"http://www.patagonia.com/shop/luggage-backpacks", 
+				"http://www.patagonia.com/dis/dw/image/v2/ABBM_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw68bc3af7/images/hi-res/48190_NBEB.jpg?sw=500&sh=500&sfrm=png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "DPS Skis", new float[] { 0, 0, 100, 100 }, 63000, 75000, 
+				"http://www.dpsskis.com/en/", 
+				"http://www.dpsskis.com/media/catalog/product/cache/1/small_image/9df78eab33525d08d6e5fb8d27136e95/s/p/spoon_710x213.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "DPS Skis", new float[] { 0, 0, 100, 100 }, 79000, 103000, 
+				"http://www.dpsskis.com/en/", 
+				"http://www.dpsskis.com/media/catalog/product/cache/1/small_image/9df78eab33525d08d6e5fb8d27136e95/l/1/l124.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "DPS Skis", new float[] { 0, 0, 100, 100 }, 107000, 137000, 
+				"http://www.dpsskis.com/en/", 
+				"http://www.dpsskis.com/media/catalog/product/cache/1/small_image/9df78eab33525d08d6e5fb8d27136e95/l/o/lotus120_710x213_2.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "DPS Skis", new float[] { 0, 0, 100, 100 }, 145000, 257000, 
+				"http://www.dpsskis.com/en/", 
+				"http://www.dpsskis.com/media/catalog/product/cache/1/small_image/9df78eab33525d08d6e5fb8d27136e95/l/o/lotus120_710x213_2.png");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "Merchandise", "Patagonia Backpack", new float[] { 0, 0, 100, 100 }, 112000, 157000, 
+				"http://www.patagonia.com/shop/luggage-backpacks", 
+				"http://www.patagonia.com/dis/dw/image/v2/ABBM_PRD/on/demandware.static/-/Sites-patagonia-master/default/dw68bc3af7/images/hi-res/48190_NBEB.jpg?sw=500&sh=500&sfrm=png");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Movie ticket", "Rogue One: A Star Wars Story", new float[] { 0, 0, 100, 100 }, 0, 95000, 
+				"http://www.fandango.com/rogue-one:a-star-wars-story_187530/movieoverview", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX214_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 5000, 9000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 12000, 21000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "Death Star", new float[] { 0, 0, 100, 100 }, 12000, 21000, 
+				"https://www.amazon.com/Star-Wars-Rogue-Titanium-Vehicle/dp/B01AWFTSNC/ref=sr_1_5?ie=UTF8&qid=1484181844&sr=8-5&keywords=death+star", 
+				"https://images-na.ssl-images-amazon.com/images/I/71Yt6OHYqEL._AC_UL115_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Diego Luna", new float[] { 0, 0, 100, 100 }, 20000, 21000, 
+				"http://www.imdb.com/name/nm0526019/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BOTE0MjI2NDczMl5BMl5BanBnXkFtZTcwMTgwMDgyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Donnie Yen", new float[] { 0, 0, 100, 100 }, 21000, 22000, 
+				"http://www.imdb.com/name/nm0526019/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BOTE0MjI2NDczMl5BMl5BanBnXkFtZTcwMTgwMDgyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Wen Jiang", new float[] { 0, 0, 100, 100 }, 23000, 25000, 
+				"http://www.imdb.com/name/nm0422638/?ref_=nv_sr_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMTY2NTUyODA1N15BMl5BanBnXkFtZTgwODIzOTQ0OTE@._V1_UY317_CR5,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "K-2SO", new float[] { 0, 0, 100, 100 }, 25000, 29000, 
+				"https://www.amazon.com/Star-Wars-Black-Rogue-K-2SO/dp/B01943RXYY/ref=sr_1_1?s=toys-and-games&ie=UTF8&qid=1484182161&sr=1-1&keywords=K-2SO", 
+				"https://images-na.ssl-images-amazon.com/images/I/71HFF3eK5SL._SL1500_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 26000, 30000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "TIE Fighter", new float[] { 0, 0, 100, 100 }, 30000, 31000, 
+				"https://www.amazon.com/Hot-Wheels-Starship-Vehicle-Fighter/dp/B01CVC9N3E/ref=sr_1_2?s=toys-and-games&ie=UTF8&qid=1484182300&sr=1-2&keywords=TIE+fighter", 
+				"https://images-na.ssl-images-amazon.com/images/I/51zKnhaLxyL._AC_US320_FMwebp_QL65_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "Darth Vader", new float[] { 0, 0, 100, 100 }, 39000, 41000, 
+				"https://www.amazon.com/Star-Wars-Deluxe-Action-Lightsaber/dp/B01BUS2M6K/ref=sr_1_2?s=toys-and-games&ie=UTF8&qid=1484182492&sr=1-2&keywords=darth+vader", 
+				"https://images-na.ssl-images-amazon.com/images/I/41Nmg79n+9L._AC_US320_QL65_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "K-2SO", new float[] { 0, 0, 100, 100 }, 42000, 48000, 
+				"https://www.amazon.com/Star-Wars-Black-Rogue-K-2SO/dp/B01943RXYY/ref=sr_1_1?s=toys-and-games&ie=UTF8&qid=1484182161&sr=1-1&keywords=K-2SO", 
+				"https://images-na.ssl-images-amazon.com/images/I/71HFF3eK5SL._SL1500_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 42000, 48000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Donnie Yen", new float[] { 0, 0, 100, 100 }, 49000, 54000, 
+				"http://www.imdb.com/name/nm0526019/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BOTE0MjI2NDczMl5BMl5BanBnXkFtZTcwMTgwMDgyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Wen Jiang", new float[] { 0, 0, 100, 100 }, 54000, 61000, 
+				"http://www.imdb.com/name/nm0422638/?ref_=nv_sr_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMTY2NTUyODA1N15BMl5BanBnXkFtZTgwODIzOTQ0OTE@._V1_UY317_CR5,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 61000, 62000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Toy", "X-Wing", new float[] { 0, 0, 100, 100 }, 62000, 80000, 
+				"https://www.amazon.com/Star-Wars-X-Wing-Expansion-Pack/dp/1616613777/ref=sr_1_3?s=toys-and-games&ie=UTF8&qid=1484182615&sr=1-3&keywords=X-Wing", 
+				"https://images-na.ssl-images-amazon.com/images/I/41ZANEUx4NL._AC_US320_FMwebp_QL65_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Felicity Jones", new float[] { 0, 0, 100, 100 }, 68000, 74000, 
+				"http://www.imdb.com/name/nm0428065/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMjA0MTIwMzIyN15BMl5BanBnXkFtZTgwNDEyMzg1NDE@._V1_UX214_CR0,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Donnie Yen", new float[] { 0, 0, 100, 100 }, 83000, 89000, 
+				"http://www.imdb.com/name/nm0526019/?ref_=fn_al_nm_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BOTE0MjI2NDczMl5BMl5BanBnXkFtZTcwMTgwMDgyMg@@._V1_UY317_CR2,0,214,317_AL_.jpg");
+		id++;
+
+		addToDB(id.toString(), "YWNvdoRnNv8", "Actor", "Wen Jiang", new float[] { 0, 0, 100, 100 }, 83000, 89000, 
+				"http://www.imdb.com/name/nm0422638/?ref_=nv_sr_1", 
+				"https://images-na.ssl-images-amazon.com/images/M/MV5BMTY2NTUyODA1N15BMl5BanBnXkFtZTgwODIzOTQ0OTE@._V1_UY317_CR5,0,214,317_AL_.jpg");
+		id++;
+
 	}
 	
 	static void addToDB(String id, String videoId, String key, String value, 
@@ -119,6 +299,23 @@ public class VideoAnnotationDaoImplMockup extends AbstractDao<Long, VideoAnnotat
 		vi.setCoordinates(coordinates);
 		vi.setStartTime(startTime);
 		vi.setEndTime(endTime);
+		vi.setUrl("");
+		vi.setImageUrl("");
+		dbMockup.add(vi);
+	}
+
+	static void addToDB(String id, String videoId, String key, String value, 
+			float[] coordinates, int startTime, int endTime, String url, String imageUrl) {
+		VideoAnnotation vi = new VideoAnnotation();
+		vi.setId(id);
+		vi.setVideoId(videoId);
+		vi.setKey(key);
+		vi.setValue(value);
+		vi.setCoordinates(coordinates);
+		vi.setStartTime(startTime);
+		vi.setEndTime(endTime);
+		vi.setUrl(url);
+		vi.setImageUrl(imageUrl);
 		dbMockup.add(vi);
 	}
 

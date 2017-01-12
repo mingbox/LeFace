@@ -16,6 +16,10 @@ public class VideoAnnotation {
 	
 	private int endTime;
 
+	private String url;
+	
+	private String imageUrl;
+	
 	public String getId() {
 		return id;
 	}
@@ -70,5 +74,21 @@ public class VideoAnnotation {
 
 	public void setEndTime(int endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }
