@@ -11,8 +11,8 @@ function searchVideo(){
 		if (!responsiveVoice.isPlaying()){//alert("|||");
 			clearInterval(noSpeakCheck); 
 			expectSpeechResponse = 1;
-//			var speechLoopInterval = 3300;
-//			var speechLength = 3050;
+			var speechLoopInterval = 3300;
+			var speechLength = 3050;
 			take_voice_sample(true);
 			speechLoop = setInterval(function(){
 				if(status == "search" || status == "search playing"){
@@ -64,8 +64,9 @@ function evaluateVoiceResult(voiceResult){
 	if (typeof obj == 'undefined' || !('display' in obj)) return;
 	
 	if (status == "standBy"){
-		if (obj.display.toLowerCase().includes("suggest") ||
-			obj.display.toLowerCase().includes("suggest video")) {
+		if (obj.display.toLowerCase().includes("make") ||
+			obj.display.toLowerCase().includes("suggest") ||
+			obj.display.toLowerCase().includes("make suggestion")) {
 			//status change already block the new loop, but still modify voicebusyflag in order to prevent duplicate execution
 			voiceBusyFlag = 1;
 			status = 'suggestion';
@@ -73,6 +74,7 @@ function evaluateVoiceResult(voiceResult){
 			voiceBusyFlag = 0;
 			return;
 		} else if (obj.display.toLowerCase().includes("play") ||
+				   obj.display.toLowerCase().includes("video") ||
 				   obj.display.toLowerCase().includes("play video")) {
 			voiceBusyFlag = 1;
 			status = 'search';
@@ -132,11 +134,10 @@ function evaluateVoiceResult(voiceResult){
 			status = 'playing';
 			setTimeout(function(){//wait a bit to prevent cycles before status change
 				voiceBusyFlag = 0;
-			}, defaultSpeechLoopInterval);
+			}, speechLoopInterval/2);
 		} else if (obj.display.toLowerCase().includes("no") ||
 				   obj.display.toLowerCase().includes("no thanks") ||
-				   obj.display.toLowerCase().includes("stup") ||
-				   obj.display.toLowerCase().includes("stop") ||
+				   obj.display.toLowerCase().includes("skip") ||
 				   obj.display.toLowerCase().includes("not now") ||
 				   obj.display.toLowerCase().includes("null")) {
 			voiceBusyFlag = 1;
@@ -146,7 +147,7 @@ function evaluateVoiceResult(voiceResult){
 			setTimeout(function(){//wait a bit to prevent cycles before status change
 				voiceBusyFlag = 0;
 				suggestVideo();
-			}, speechLoopInterval);
+			}, speechLoopInterval/2);
 		} else if (obj.display.toLowerCase().includes("dismiss") ||
 				   obj.display.toLowerCase().includes("stop")) {
 			reset();
@@ -189,7 +190,7 @@ function evaluateVoiceResult(voiceResult){
 				voiceBusyFlag = 0;
 				status = 'suggestion';
 				suggestVideo();
-			}, speechLoopInterval);
+			}, speechLoopInterval/2);
 		} else if (obj.display.toLowerCase().includes("dismiss") ||
 				   obj.display.toLowerCase().includes("stop")) {
 			reset();
@@ -344,11 +345,11 @@ function take_voice_sample(useMic) {
 
 function setText(text) {
 	if (text == -1){
-		$('#speechResult').html( text );
+		//$('#speechResult').html( text );
 	} else {
 		var array = JSON.parse(text);
 		var obj = array[0];
-		$('#speechResult').html( obj.display );
+		//$('#speechResult').html( obj.display );
 		
 	}
 	evaluateVoiceResult(text);

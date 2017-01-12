@@ -26,6 +26,7 @@
 		}
 		/* .fullScreen {width = 100%; height = 100%;} */
 		#player { position: fixed; bottom: 0; right: 0; display: none;}
+		#spotify { position: fixed; bottom: 0; right: 0; display: none;}
 		#dialogBox { background: rgba(0, 0, 0, .6); position: fixed; bottom: 0; height: 50px; width: 100%; display: none;}
 		#dialog {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
 		#speechResult {  margin-top: 10px; margin-left: 20px; font-size: 1.5em; color: white; }
@@ -45,6 +46,7 @@
 	</form>		
 
 	<div id="player"></div><!-- youtube video block -->
+	<iframe id="spotify" src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
 	<div id="dialogBox">
 		<p id="dialog"></p>
 	</div>
@@ -96,11 +98,11 @@
 		var speechLoop;
 		var defaultSpeechLoopInterval = 2500;
 		var speechLoopInterval = defaultSpeechLoopInterval;
-		var defaultSpeechLength = 2200;
+		var defaultSpeechLength = 2250;
 		var speechLength = defaultSpeechLength;
         function startSpeechLoop() {
 			window.setInterval(function(){//still wait first and then execute
-				if(!responsiveVoice.isPlaying() && voiceBusyFlag == 0 && status == "standBy") {
+				if(voiceBusyFlag == 0 && status == "standBy") {//!responsiveVoice.isPlaying() removed
 					voiceOperation();
 					//take_sample();
 				}
@@ -127,6 +129,7 @@
 			$('#dialog').html( "" );
 			cancelPlayerFullScreen()
 			stopVideo();
+			spotifyHide();
 			speechLoopInterval = defaultSpeechLoopInterval;
 			speechLength = defaultSpeechLength;
 			expectSpeechResponse = 0;

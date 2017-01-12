@@ -1,0 +1,29 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<iframe id="spotify"  src="https://embed.spotify.com/?uri=spotify:track:12VWzyPDBCc8fqeWCAfNwR" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
+<script type="text/javascript">
+    function spotifyPlay(songId){
+        $('#spotify').attr('src',"https://embed.spotify.com/?uri=spotify:track:"+songId);
+        $('#spotify').show();
+        $('#play-button').click();
+    }
+
+    function spotifyHide(){
+        $('#play-button').click();
+        $('#spotify').hide();
+    } 
+    
+    function play(){
+        var audio = new Audio();
+        audio.src = "https://p.scdn.co/mp3-preview/98f60b086bb1da2ca2e4c217331b8c8cc801358d?cid=null";
+        audio.play();
+//        alert($('#play-button'));
+//        $('#play-button').click();
+        //$('#spotify').contents().find('#play-button').trigger( "click" );
+    }
+</script>
+
+<input type="button" value="Change site" onClick="spotifyPlay('2TpxZ7JUBn3uw46aR7qd6V');" />
+
+<input type="button" value="click" onClick="play();" />
