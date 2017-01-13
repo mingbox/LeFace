@@ -16,12 +16,12 @@ public class VideoAnnotationServiceImpl implements VideoAnnotationService {
 	@Autowired
 	private VideoAnnotationDao videoAnnotationDao;
 
-	@Transactional
+//	@Transactional
 	public List<VideoAnnotation> getVideoInfoByVideoId(String videoId) {
 		return videoAnnotationDao.findVideoAnnotationByVideoId(videoId);
 	}
 
-	@Transactional
+//	@Transactional
 	public List<VideoAnnotation> getVideoInfoByTimestamp(String videoId, int timestamp) {
 		return videoAnnotationDao.findVideoAnnotationByTimestamp(videoId, timestamp);
 	}
