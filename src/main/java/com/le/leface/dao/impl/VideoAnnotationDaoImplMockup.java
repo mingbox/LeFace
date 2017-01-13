@@ -107,7 +107,77 @@ public class VideoAnnotationDaoImplMockup extends AbstractDao<Long, VideoAnnotat
 				1160000, 118000);
 		id++;
 
-		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 0, 280000, 
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 0, 6000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 20000, 65000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Scott", new float[] { 0, 0, 100, 100 }, 34000, 70000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Mingbo", new float[] { 0, 0, 100, 100 }, 34000, 50000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 71000, 86000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Mingbo", new float[] { 0, 0, 100, 100 }, 87000, 110000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Scott", new float[] { 0, 0, 100, 100 }, 90000, 95000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 110000, 147000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Mingbo", new float[] { 0, 0, 100, 100 }, 130000, 147000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Scott", new float[] { 0, 0, 100, 100 }, 130000, 185000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 187000, 242000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Scott", new float[] { 0, 0, 100, 100 }, 187000, 190000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Mingbo", new float[] { 0, 0, 100, 100 }, 187000, 190000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Mingbo", new float[] { 0, 0, 100, 100 }, 242000, 252000, 
+				"http://www.pierssolomon.com/about/", 
+				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
+		id++;
+
+		addToDB(id.toString(), "IqFJJb7FV8k", "People", "Piers Solomon", new float[] { 0, 0, 100, 100 }, 248000, 258000, 
 				"http://www.pierssolomon.com/about/", 
 				"https://static1.squarespace.com/static/555dd299e4b0c1834b5b550c/t/5637c3bae4b018ccb36dea9d/1446495168731/?format=1500w");
 		id++;
