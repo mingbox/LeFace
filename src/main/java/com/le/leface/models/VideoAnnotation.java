@@ -6,7 +6,7 @@ public class VideoAnnotation {
 	
 	private String videoId;
 	
-	private float[] coordinates;
+	private String coordinates;
 	
 	private String key;
 	
@@ -36,11 +36,11 @@ public class VideoAnnotation {
 		this.videoId = videoId;
 	}
 
-	public float[] getCoordinates() {
+	public String getCoordinates() {
 		return coordinates;
 	}
 
-	public void setCoordinates(float[] coordinates) {
+	public void setCoordinates(String coordinates) {
 		this.coordinates = coordinates;
 	}
 
