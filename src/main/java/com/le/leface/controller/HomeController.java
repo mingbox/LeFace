@@ -189,11 +189,13 @@ public class HomeController {
 		return "redirect:/admin";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/getVideoAnnotation")
-	public String getVideoAnnotation(Model model, String videoId, int timestamp) {
+	public List<VideoAnnotation> getVideoAnnotation(@RequestParam(value = "videoId", required = true) String videoId
+			, @RequestParam(value = "timestamp", required = true) int timestamp) {
 		List<VideoAnnotation> listVI = videoAnnotationService.getVideoInfoByTimestamp(videoId, timestamp);
-		model.addAttribute("videoannotation", listVI);
-		return "getVideoAnnotation";
+		//model.addAttribute("videoannotation", listVI);
+		return listVI;
 	}
 	
 }

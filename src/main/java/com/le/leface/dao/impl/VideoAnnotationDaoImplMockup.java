@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.le.leface.dao.AbstractDao;
 import com.le.leface.dao.VideoAnnotationDao;
 import com.le.leface.models.VideoAnnotation;
 
-@Repository
+@Service
 public class VideoAnnotationDaoImplMockup extends AbstractDao<Long, VideoAnnotation> implements VideoAnnotationDao {
 	
 	private static List<VideoAnnotation> dbMockup;
