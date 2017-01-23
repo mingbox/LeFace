@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Service;
 
 import com.le.leface.dao.AbstractDao;
 import com.le.leface.dao.VideoAnnotationDao;
 import com.le.leface.models.VideoAnnotation;
 
+@Service
 public class VideoAnnotationDaoImpl extends AbstractDao<Long, VideoAnnotation> implements VideoAnnotationDao {
 	
 	@Override
